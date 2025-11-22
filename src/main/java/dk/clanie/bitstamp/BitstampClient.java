@@ -26,6 +26,7 @@ import org.springframework.web.client.RestClient;
 import dk.clanie.bitstamp.dto.BitstampOhlcData;
 import dk.clanie.bitstamp.dto.BitstampOrderBook;
 import dk.clanie.bitstamp.dto.BitstampTicker;
+import dk.clanie.bitstamp.dto.BitstampTickerListEntry;
 import dk.clanie.bitstamp.dto.BitstampTradingPair;
 import dk.clanie.bitstamp.dto.BitstampTransaction;
 import dk.clanie.web.RestClientFactory;
@@ -49,6 +50,21 @@ public class BitstampClient {
 	@PostConstruct
 	public void init() {
 		restClient = restClientFactory.newRestClient(baseUrl, wiretap);
+	}
+
+
+	/**
+	 * Gets ticker data for all currency pairs.
+	 * <p/>
+	 * Returns ticker data for all available currency pairs.
+	 * 
+	 * @return list of ticker data for all pairs
+	 */
+	public List<BitstampTickerListEntry> listTickers() {
+		return restClient.get()
+				.uri("/ticker/")
+				.retrieve()
+				.body(new ParameterizedTypeReference<List<BitstampTickerListEntry>>() {});
 	}
 
 

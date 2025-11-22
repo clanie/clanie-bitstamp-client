@@ -19,11 +19,14 @@ This client supports the following Bitstamp public API endpoints:
 
 ### Configuration
 
-Add the following property to your `application.properties` or `application.yml`:
+Add the following properties to your `application.properties` or `application.yml`:
 
 ```properties
 # Optional - defaults to https://www.bitstamp.net/api/v2
 bitstamp.url=https://www.bitstamp.net/api/v2
+
+# Optional - enable request/response logging (defaults to false)
+bitstamp.wiretap=false
 ```
 
 ### Example

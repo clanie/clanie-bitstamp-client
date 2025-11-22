@@ -26,25 +26,29 @@ import org.springframework.web.client.RestClient;
 import dk.clanie.bitstamp.dto.BitstampOhlcData;
 import dk.clanie.bitstamp.dto.BitstampOrderBook;
 import dk.clanie.bitstamp.dto.BitstampTicker;
-import dk.clanie.bitstamp.dto.BitstampTransaction;
 import dk.clanie.bitstamp.dto.BitstampTradingPair;
+import dk.clanie.bitstamp.dto.BitstampTransaction;
+import dk.clanie.web.RestClientFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BitstampClient {
 
+	private final RestClientFactory restClientFactory;
+
 	@Value("${bitstamp.url:https://www.bitstamp.net/api/v2}")
 	private String baseUrl;
+
+	@Value("${bitstamp.wiretap:false}")
+	private boolean wiretap;
 
 	private RestClient restClient;
 
 
 	@PostConstruct
 	public void init() {
-		restClient = RestClient.builder()
-				.baseUrl(baseUrl)
-				.build();
+		restClient = restClientFactory.newRestClient(baseUrl, wiretap);
 	}
 
 

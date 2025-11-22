@@ -22,6 +22,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
+import dk.clanie.web.RestClientFactory;
+
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for clanie-bitstamp-client.
  */
@@ -31,8 +33,8 @@ public class BitstampAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	BitstampClient bitstampClient() {
-		return new BitstampClient();
+	BitstampClient bitstampClient(RestClientFactory restClientFactory) {
+		return new BitstampClient(restClientFactory);
 	}
 
 

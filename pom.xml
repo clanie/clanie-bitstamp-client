@@ -9,17 +9,18 @@
 		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>clanie-eodhd-client</artifactId>
+	<artifactId>clanie-bitstamp-client</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
-	<name>EODHD Client</name>
-	<description>An EODHD Client</description>
+	<name>Bitstamp Client</name>
+	<description>An Bitstamp Client</description>
 	<inceptionYear>2025</inceptionYear>
 
-	<url>https://github.com/clanie/clanie-eodhd-client</url>
+	<url>https://github.com/clanie/clanie-bitstamp-client</url>
 
 	<scm>
-		<connection>scm:git:ssh://git@github.com/clanie/clanie-eodhd-client.git</connection>
-		<url>https://github.com/clanie/clanie-eodhd-client</url>
+		<connection>scm:git:ssh://git@github.com/clanie/clanie-bitstamp-client.git</connection>
+		<url>https://github.com/clanie/clanie-bitstamp-client</url>
 		<tag>HEAD</tag>
 	</scm>
 

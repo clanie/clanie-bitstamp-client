@@ -1,0 +1,7 @@
+{"properties": [
+  {
+    "name": "bitstamp.url",
+    "type": "java.lang.String",
+    "description": "Base URL for Bitstamp API (default: https://www.bitstamp.net/api/v2)"
+  }
+]}

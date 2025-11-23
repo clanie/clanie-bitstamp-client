@@ -40,9 +40,11 @@ class BitstampTickerTest {
 				  "volume": "1234.56789012",
 				  "low": "47200.00",
 				  "ask": "47805.00",
+				  "side": "1",
 				  "open": "48500.00",
 				  "open_24": "48000.00",
-				  "percent_change_24": "-0.42"
+				  "percent_change_24": "-0.42",
+				  "market_type": "SPOT"
 				}
 				""", BitstampTicker.class);
 		
@@ -54,9 +56,41 @@ class BitstampTickerTest {
 		assertThat(ticker.getVolume()).isEqualTo(1234.56789012);
 		assertThat(ticker.getLow()).isEqualTo(47200.00);
 		assertThat(ticker.getAsk()).isEqualTo(47805.00);
+		assertThat(ticker.getSide()).isEqualTo(TradeSide.SELL);
 		assertThat(ticker.getOpen()).isEqualTo(48500.00);
 		assertThat(ticker.getOpen24()).isEqualTo(48000.00);
 		assertThat(ticker.getPercentChange24()).isEqualTo(-0.42);
+		assertThat(ticker.getMarketType()).isEqualTo(MarketType.SPOT);
+		assertThat(ticker.getIndexPrice()).isNull();
+	}
+
+	@Test
+	void testJsonDeserializationWithIndexPrice() throws JsonMappingException, JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		BitstampTicker ticker = objectMapper.readValue("""
+				{
+				  "timestamp": "1763860037",
+				  "open": "1.15083",
+				  "high": "1.15160",
+				  "low": "1.14933",
+				  "last": "1.15072",
+				  "volume": "289594.68039",
+				  "vwap": "1.15057",
+				  "bid": "1.15037",
+				  "ask": "1.15057",
+				  "side": "0",
+				  "open_24": "1.15087",
+				  "percent_change_24": "-0.01",
+				  "market_type": "SPOT",
+				  "index_price": "1.15055"
+				}
+				""", BitstampTicker.class);
+		
+		assertThat(ticker.getTimestamp()).isEqualTo(1763860037L);
+		assertThat(ticker.getLast()).isEqualTo(1.15072);
+		assertThat(ticker.getSide()).isEqualTo(TradeSide.BUY);
+		assertThat(ticker.getMarketType()).isEqualTo(MarketType.SPOT);
+		assertThat(ticker.getIndexPrice()).isEqualTo(1.15055);
 	}
 
 }

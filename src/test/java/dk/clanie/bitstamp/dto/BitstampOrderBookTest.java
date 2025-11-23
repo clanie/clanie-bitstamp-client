@@ -46,7 +46,7 @@ class BitstampOrderBookTest {
 				""", BitstampOrderBook.class);
 		
 		assertThat(orderBook.getTimestamp()).isEqualTo(1637597234L);
-		assertThat(orderBook.getMicrotimestamp()).isEqualTo("1637597234123456");
+		assertThat(orderBook.getMicrotimestamp()).isEqualTo(1637597234123456L);
 		assertThat(orderBook.getBids()).hasSize(2);
 		assertThat(orderBook.getBids().get(0).getPrice()).isEqualTo(47795.00);
 		assertThat(orderBook.getBids().get(0).getAmount()).isEqualTo(1.23456789);

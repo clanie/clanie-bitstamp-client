@@ -17,36 +17,17 @@
  */
 package dk.clanie.bitstamp.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Value;
-
 /**
- * Information about a currency network.
+ * Currency type enumeration.
  */
-@Value
-public class BitstampCurrencyNetwork {
+public enum BitstampCurrencyType {
 
-	String network;
-	String withdrawalMinimumAmount;
-	Integer withdrawalDecimals;
-	BitstampAvailabilityStatus deposit;
-	BitstampAvailabilityStatus withdrawal;
+	@JsonProperty("crypto")
+	CRYPTO,
 
-
-	@JsonCreator
-	public BitstampCurrencyNetwork(
-			@JsonProperty("network") String network,
-			@JsonProperty("withdrawal_minimum_amount") String withdrawalMinimumAmount,
-			@JsonProperty("withdrawal_decimals") Integer withdrawalDecimals,
-			@JsonProperty("deposit") BitstampAvailabilityStatus deposit,
-			@JsonProperty("withdrawal") BitstampAvailabilityStatus withdrawal) {
-		this.network = network;
-		this.withdrawalMinimumAmount = withdrawalMinimumAmount;
-		this.withdrawalDecimals = withdrawalDecimals;
-		this.deposit = deposit;
-		this.withdrawal = withdrawal;
-	}
+	@JsonProperty("fiat")
+	FIAT
 
 }

@@ -44,11 +44,11 @@ public class BitstampTickerListEntry {
 	double vwap;
 	double bid;
 	double ask;
-	TradeSide side;
+	BitstampTradeSide side;
 	double open24;
 	@JsonDeserialize(using = EmptyStringToNullDoubleDeserializer.class)
 	Double percentChange24;
-	MarketType marketType;
+	BitstampMarketType marketType;
 	String pair;
 	String market;
 	// Optional fields for PERPETUAL markets
@@ -69,10 +69,10 @@ public class BitstampTickerListEntry {
 			@JsonProperty("vwap") double vwap,
 			@JsonProperty("bid") double bid,
 			@JsonProperty("ask") double ask,
-			@JsonProperty("side") TradeSide side,
+			@JsonProperty("side") BitstampTradeSide side,
 			@JsonProperty("open_24") double open24,
 			@JsonProperty("percent_change_24") Double percentChange24,
-			@JsonProperty("market_type") MarketType marketType,
+			@JsonProperty("market_type") BitstampMarketType marketType,
 			@JsonProperty("pair") String pair,
 			@JsonProperty("market") String market,
 			@JsonProperty("index_price") Double indexPrice,

@@ -38,12 +38,12 @@ public class BitstampTicker {
 	double volume;
 	double low;
 	double ask;
-	TradeSide side;
+	BitstampTradeSide side;
 	double open;
 	double open24;
 	@JsonDeserialize(using = EmptyStringToNullDoubleDeserializer.class)
 	Double percentChange24;
-	MarketType marketType;
+	BitstampMarketType marketType;
 	// Optional field - only present for certain trading pairs (e.g., EURUSD)
 	Double indexPrice;
 
@@ -58,11 +58,11 @@ public class BitstampTicker {
 			@JsonProperty("volume") double volume,
 			@JsonProperty("low") double low,
 			@JsonProperty("ask") double ask,
-			@JsonProperty("side") TradeSide side,
+			@JsonProperty("side") BitstampTradeSide side,
 			@JsonProperty("open") double open,
 			@JsonProperty("open_24") double open24,
 			@JsonProperty("percent_change_24") Double percentChange24,
-			@JsonProperty("market_type") MarketType marketType,
+			@JsonProperty("market_type") BitstampMarketType marketType,
 			@JsonProperty("index_price") Double indexPrice) {
 		this.high = high;
 		this.last = last;

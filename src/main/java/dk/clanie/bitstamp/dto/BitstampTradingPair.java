@@ -34,8 +34,8 @@ public class BitstampTradingPair {
 	int counterDecimals;
 	int instantOrderCounterDecimals;
 	double minimumOrder;
-	TradingStatus trading;
-	TradingStatus instantAndMarketOrders;
+	BitstampTradingStatus trading;
+	BitstampTradingStatus instantAndMarketOrders;
 	String description;
 
 
@@ -47,8 +47,8 @@ public class BitstampTradingPair {
 			@JsonProperty("counter_decimals") int counterDecimals,
 			@JsonProperty("instant_order_counter_decimals") int instantOrderCounterDecimals,
 			@JsonProperty("minimum_order") double minimumOrder,
-			@JsonProperty("trading") TradingStatus trading,
-			@JsonProperty("instant_and_market_orders") TradingStatus instantAndMarketOrders,
+			@JsonProperty("trading") BitstampTradingStatus trading,
+			@JsonProperty("instant_and_market_orders") BitstampTradingStatus instantAndMarketOrders,
 			@JsonProperty("description") String description) {
 		this.name = name;
 		this.urlSymbol = urlSymbol;

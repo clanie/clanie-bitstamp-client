@@ -32,13 +32,13 @@ public class BitstampCurrency {
 
 	String name;
 	String currency;
-	CurrencyType type;
+	BitstampCurrencyType type;
 	String symbol;
 	Integer decimals;
 	String logo;
 	String availableSupply;
-	AvailabilityStatus deposit;
-	AvailabilityStatus withdrawal;
+	BitstampAvailabilityStatus deposit;
+	BitstampAvailabilityStatus withdrawal;
 	List<BitstampCurrencyNetwork> networks;
 
 
@@ -46,13 +46,13 @@ public class BitstampCurrency {
 	public BitstampCurrency(
 			@JsonProperty("name") String name,
 			@JsonProperty("currency") String currency,
-			@JsonProperty("type") CurrencyType type,
+			@JsonProperty("type") BitstampCurrencyType type,
 			@JsonProperty("symbol") String symbol,
 			@JsonProperty("decimals") Integer decimals,
 			@JsonProperty("logo") String logo,
 			@JsonProperty("available_supply") String availableSupply,
-			@JsonProperty("deposit") AvailabilityStatus deposit,
-			@JsonProperty("withdrawal") AvailabilityStatus withdrawal,
+			@JsonProperty("deposit") BitstampAvailabilityStatus deposit,
+			@JsonProperty("withdrawal") BitstampAvailabilityStatus withdrawal,
 			@JsonProperty("networks") List<BitstampCurrencyNetwork> networks) {
 		this.name = name;
 		this.currency = currency;

@@ -56,11 +56,11 @@ class BitstampTickerTest {
 		assertThat(ticker.getVolume()).isEqualTo(1234.56789012);
 		assertThat(ticker.getLow()).isEqualTo(47200.00);
 		assertThat(ticker.getAsk()).isEqualTo(47805.00);
-		assertThat(ticker.getSide()).isEqualTo(TradeSide.SELL);
+		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.SELL);
 		assertThat(ticker.getOpen()).isEqualTo(48500.00);
 		assertThat(ticker.getOpen24()).isEqualTo(48000.00);
 		assertThat(ticker.getPercentChange24()).isEqualTo(-0.42);
-		assertThat(ticker.getMarketType()).isEqualTo(MarketType.SPOT);
+		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
 		assertThat(ticker.getIndexPrice()).isNull();
 	}
 
@@ -88,8 +88,8 @@ class BitstampTickerTest {
 		
 		assertThat(ticker.getTimestamp()).isEqualTo(1763860037L);
 		assertThat(ticker.getLast()).isEqualTo(1.15072);
-		assertThat(ticker.getSide()).isEqualTo(TradeSide.BUY);
-		assertThat(ticker.getMarketType()).isEqualTo(MarketType.SPOT);
+		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.BUY);
+		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
 		assertThat(ticker.getIndexPrice()).isEqualTo(1.15055);
 	}
 

@@ -32,7 +32,7 @@ public class BitstampTransaction {
 	long tid;
 	double price;
 	double amount;
-	TransactionType type;
+	BitstampTransactionType type;
 
 
 	@JsonCreator
@@ -41,7 +41,7 @@ public class BitstampTransaction {
 			@JsonProperty("tid") long tid,
 			@JsonProperty("price") double price,
 			@JsonProperty("amount") double amount,
-			@JsonProperty("type") TransactionType type) {
+			@JsonProperty("type") BitstampTransactionType type) {
 		this.date = date;
 		this.tid = tid;
 		this.price = price;

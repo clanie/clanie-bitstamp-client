@@ -59,10 +59,10 @@ class BitstampTickerListEntryTest {
 		assertThat(ticker.getVwap()).isEqualTo(84433.0);
 		assertThat(ticker.getBid()).isEqualTo(84920.0);
 		assertThat(ticker.getAsk()).isEqualTo(84921.0);
-		assertThat(ticker.getSide()).isEqualTo(TradeSide.BUY);
+		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.BUY);
 		assertThat(ticker.getOpen24()).isEqualTo(84878.0);
 		assertThat(ticker.getPercentChange24()).isEqualTo(0.05);
-		assertThat(ticker.getMarketType()).isEqualTo(MarketType.SPOT);
+		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
 		assertThat(ticker.getPair()).isEqualTo("BTC/USD");
 		assertThat(ticker.getMarket()).isEqualTo("BTC/USD");
 		// Optional fields should be null for SPOT markets
@@ -98,10 +98,10 @@ class BitstampTickerListEntryTest {
 		assertThat(ticker.getTimestamp()).isEqualTo(1763854710L);
 		assertThat(ticker.getOpen()).isEqualTo(0.0);
 		assertThat(ticker.getLast()).isEqualTo(1.20000);
-		assertThat(ticker.getSide()).isEqualTo(TradeSide.SELL);
+		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.SELL);
 		// Empty string should be deserialized to null
 		assertThat(ticker.getPercentChange24()).isNull();
-		assertThat(ticker.getMarketType()).isEqualTo(MarketType.SPOT);
+		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
 		assertThat(ticker.getPair()).isEqualTo("DAI/USD");
 		assertThat(ticker.getMarket()).isEqualTo("DAI/USD");
 	}
@@ -142,10 +142,10 @@ class BitstampTickerListEntryTest {
 		assertThat(ticker.getVwap()).isEqualTo(84287.0);
 		assertThat(ticker.getBid()).isEqualTo(84927.0);
 		assertThat(ticker.getAsk()).isEqualTo(84928.0);
-		assertThat(ticker.getSide()).isEqualTo(TradeSide.SELL);
+		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.SELL);
 		assertThat(ticker.getOpen24()).isEqualTo(84913.0);
 		assertThat(ticker.getPercentChange24()).isEqualTo(0.02);
-		assertThat(ticker.getMarketType()).isEqualTo(MarketType.PERPETUAL);
+		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.PERPETUAL);
 		assertThat(ticker.getPair()).isEqualTo("BTC/USD-PERP");
 		assertThat(ticker.getMarket()).isEqualTo("BTC/USD-PERP");
 		// PERPETUAL markets should have these optional fields

@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
 
+import dk.clanie.bitstamp.dto.BitstampCurrency;
 import dk.clanie.bitstamp.dto.BitstampOhlcData;
 import dk.clanie.bitstamp.dto.BitstampOrderBook;
 import dk.clanie.bitstamp.dto.BitstampTicker;
@@ -50,6 +51,21 @@ public class BitstampClient {
 	@PostConstruct
 	public void init() {
 		restClient = restClientFactory.newRestClient(baseUrl, wiretap);
+	}
+
+
+	/**
+	 * Gets all available currencies.
+	 * <p/>
+	 * Returns info for all available currencies including their networks, deposit/withdrawal status, and other metadata.
+	 * 
+	 * @return list of currencies
+	 */
+	public List<BitstampCurrency> getCurrencies() {
+		return restClient.get()
+				.uri("/currencies/")
+				.retrieve()
+				.body(new ParameterizedTypeReference<List<BitstampCurrency>>() {});
 	}
 
 

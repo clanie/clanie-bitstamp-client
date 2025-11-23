@@ -17,36 +17,19 @@
  */
 package dk.clanie.bitstamp.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Value;
-
 /**
- * Represents a single transaction (trade).
+ * Transaction type enumeration.
+ * <p>
+ * 0 = buy, 1 = sell
  */
-@Value
-public class BitstampTransaction {
+public enum TransactionType {
 
-	long date;
-	long tid;
-	double price;
-	double amount;
-	TransactionType type;
+	@JsonProperty("0")
+	BUY,
 
-
-	@JsonCreator
-	public BitstampTransaction(
-			@JsonProperty("date") long date,
-			@JsonProperty("tid") long tid,
-			@JsonProperty("price") double price,
-			@JsonProperty("amount") double amount,
-			@JsonProperty("type") TransactionType type) {
-		this.date = date;
-		this.tid = tid;
-		this.price = price;
-		this.amount = amount;
-		this.type = type;
-	}
+	@JsonProperty("1")
+	SELL
 
 }

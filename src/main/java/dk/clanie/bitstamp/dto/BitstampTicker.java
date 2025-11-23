@@ -19,6 +19,7 @@ package dk.clanie.bitstamp.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Value;
 
@@ -30,30 +31,38 @@ public class BitstampTicker {
 
 	double high;
 	double last;
-	Long timestamp;
+	long timestamp;
 	double bid;
 	double vwap;
 	double volume;
 	double low;
 	double ask;
+	TradeSide side;
 	double open;
 	double open24;
-	double percentChange24;
+	@JsonDeserialize(using = EmptyStringToNullDoubleDeserializer.class)
+	Double percentChange24;
+	MarketType marketType;
+	// Optional field - only present for certain trading pairs (e.g., EURUSD)
+	Double indexPrice;
 
 
 	@JsonCreator
 	public BitstampTicker(
 			@JsonProperty("high") double high,
 			@JsonProperty("last") double last,
-			@JsonProperty("timestamp") Long timestamp,
+			@JsonProperty("timestamp") long timestamp,
 			@JsonProperty("bid") double bid,
 			@JsonProperty("vwap") double vwap,
 			@JsonProperty("volume") double volume,
 			@JsonProperty("low") double low,
 			@JsonProperty("ask") double ask,
+			@JsonProperty("side") TradeSide side,
 			@JsonProperty("open") double open,
 			@JsonProperty("open_24") double open24,
-			@JsonProperty("percent_change_24") double percentChange24) {
+			@JsonProperty("percent_change_24") Double percentChange24,
+			@JsonProperty("market_type") MarketType marketType,
+			@JsonProperty("index_price") Double indexPrice) {
 		this.high = high;
 		this.last = last;
 		this.timestamp = timestamp;
@@ -62,9 +71,12 @@ public class BitstampTicker {
 		this.volume = volume;
 		this.low = low;
 		this.ask = ask;
+		this.side = side;
 		this.open = open;
 		this.open24 = open24;
 		this.percentChange24 = percentChange24;
+		this.marketType = marketType;
+		this.indexPrice = indexPrice;
 	}
 
 }

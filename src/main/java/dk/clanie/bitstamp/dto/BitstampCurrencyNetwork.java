@@ -17,55 +17,36 @@
  */
 package dk.clanie.bitstamp.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Value;
 
 /**
- * Order book data showing bids and asks.
+ * Information about a currency network.
  */
 @Value
-public class BitstampOrderBook {
+public class BitstampCurrencyNetwork {
 
-	long timestamp;
-	long microtimestamp;
-	List<Order> bids;
-	List<Order> asks;
+	String network;
+	String withdrawalMinimumAmount;
+	Integer withdrawalDecimals;
+	AvailabilityStatus deposit;
+	AvailabilityStatus withdrawal;
 
 
 	@JsonCreator
-	public BitstampOrderBook(
-			@JsonProperty("timestamp") long timestamp,
-			@JsonProperty("microtimestamp") long microtimestamp,
-			@JsonProperty("bids") List<Order> bids,
-			@JsonProperty("asks") List<Order> asks) {
-		this.timestamp = timestamp;
-		this.microtimestamp = microtimestamp;
-		this.bids = bids;
-		this.asks = asks;
-	}
-
-
-	/**
-	 * Represents a single order in the order book.
-	 * Bitstamp returns orders as arrays: [price, amount]
-	 */
-	@Value
-	public static class Order {
-		double price;
-		double amount;
-
-		@JsonCreator
-		public Order(List<Double> values) {
-			if (values == null || values.size() < 2) {
-				throw new IllegalArgumentException("Order must have at least 2 values: [price, amount]");
-			}
-			this.price = values.get(0);
-			this.amount = values.get(1);
-		}
+	public BitstampCurrencyNetwork(
+			@JsonProperty("network") String network,
+			@JsonProperty("withdrawal_minimum_amount") String withdrawalMinimumAmount,
+			@JsonProperty("withdrawal_decimals") Integer withdrawalDecimals,
+			@JsonProperty("deposit") AvailabilityStatus deposit,
+			@JsonProperty("withdrawal") AvailabilityStatus withdrawal) {
+		this.network = network;
+		this.withdrawalMinimumAmount = withdrawalMinimumAmount;
+		this.withdrawalDecimals = withdrawalDecimals;
+		this.deposit = deposit;
+		this.withdrawal = withdrawal;
 	}
 
 }

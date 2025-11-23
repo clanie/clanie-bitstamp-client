@@ -17,36 +17,26 @@
  */
 package dk.clanie.bitstamp.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
 
-import lombok.Value;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
- * Represents a single transaction (trade).
+ * Deserializer that converts empty strings to null for Double fields.
+ * <p>
+ * Used for fields like percent_change_24 which can be either a number or an empty string.
  */
-@Value
-public class BitstampTransaction {
+public class EmptyStringToNullDoubleDeserializer extends JsonDeserializer<Double> {
 
-	long date;
-	long tid;
-	double price;
-	double amount;
-	TransactionType type;
-
-
-	@JsonCreator
-	public BitstampTransaction(
-			@JsonProperty("date") long date,
-			@JsonProperty("tid") long tid,
-			@JsonProperty("price") double price,
-			@JsonProperty("amount") double amount,
-			@JsonProperty("type") TransactionType type) {
-		this.date = date;
-		this.tid = tid;
-		this.price = price;
-		this.amount = amount;
-		this.type = type;
+	@Override
+	public Double deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+		String value = p.getText();
+		if (value == null || value.trim().isEmpty()) {
+			return null;
+		}
+		return Double.parseDouble(value);
 	}
 
 }

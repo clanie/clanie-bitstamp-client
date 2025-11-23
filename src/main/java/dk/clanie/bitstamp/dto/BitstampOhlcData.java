@@ -48,7 +48,7 @@ public class BitstampOhlcData {
 	 */
 	@Value
 	public static class Candle {
-		Long timestamp;
+		long timestamp;
 		double open;
 		double high;
 		double low;
@@ -57,7 +57,7 @@ public class BitstampOhlcData {
 
 		@JsonCreator
 		public Candle(
-				@JsonProperty("timestamp") Long timestamp,
+				@JsonProperty("timestamp") long timestamp,
 				@JsonProperty("open") double open,
 				@JsonProperty("high") double high,
 				@JsonProperty("low") double low,

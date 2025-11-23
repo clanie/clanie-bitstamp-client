@@ -19,6 +19,7 @@ package dk.clanie.bitstamp.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Value;
 
@@ -27,12 +28,13 @@ import lombok.Value;
  * <p>
  * This is returned from the /ticker endpoint (without a specific currency pair).
  * It contains the same fields as {@link BitstampTicker} plus additional fields:
- * side, marketType, pair, and market.
+ * side, marketType, pair, market, and optionally indexPrice, markPrice, openInterest, 
+ * and openInterestValue (for PERPETUAL markets).
  */
 @Value
 public class BitstampTickerListEntry {
 
-	Long timestamp;
+	long timestamp;
 	double open;
 	double high;
 	double low;
@@ -41,17 +43,23 @@ public class BitstampTickerListEntry {
 	double vwap;
 	double bid;
 	double ask;
-	String side;
+	TradeSide side;
 	double open24;
-	double percentChange24;
-	String marketType;
+	@JsonDeserialize(using = EmptyStringToNullDoubleDeserializer.class)
+	Double percentChange24;
+	MarketType marketType;
 	String pair;
 	String market;
+	// Optional fields for PERPETUAL markets
+	Double indexPrice;
+	Double markPrice;
+	Double openInterest;
+	Double openInterestValue;
 
 
 	@JsonCreator
 	public BitstampTickerListEntry(
-			@JsonProperty("timestamp") Long timestamp,
+			@JsonProperty("timestamp") long timestamp,
 			@JsonProperty("open") double open,
 			@JsonProperty("high") double high,
 			@JsonProperty("low") double low,
@@ -60,12 +68,16 @@ public class BitstampTickerListEntry {
 			@JsonProperty("vwap") double vwap,
 			@JsonProperty("bid") double bid,
 			@JsonProperty("ask") double ask,
-			@JsonProperty("side") String side,
+			@JsonProperty("side") TradeSide side,
 			@JsonProperty("open_24") double open24,
-			@JsonProperty("percent_change_24") double percentChange24,
-			@JsonProperty("market_type") String marketType,
+			@JsonProperty("percent_change_24") Double percentChange24,
+			@JsonProperty("market_type") MarketType marketType,
 			@JsonProperty("pair") String pair,
-			@JsonProperty("market") String market) {
+			@JsonProperty("market") String market,
+			@JsonProperty("index_price") Double indexPrice,
+			@JsonProperty("mark_price") Double markPrice,
+			@JsonProperty("open_interest") Double openInterest,
+			@JsonProperty("open_interest_value") Double openInterestValue) {
 		this.timestamp = timestamp;
 		this.open = open;
 		this.high = high;
@@ -81,6 +93,10 @@ public class BitstampTickerListEntry {
 		this.marketType = marketType;
 		this.pair = pair;
 		this.market = market;
+		this.indexPrice = indexPrice;
+		this.markPrice = markPrice;
+		this.openInterest = openInterest;
+		this.openInterestValue = openInterestValue;
 	}
 
 }

@@ -17,6 +17,13 @@
  */
 package dk.clanie.bitstamp.dto;
 
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.BTC;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD_PERP;
+import static dk.clanie.bitstamp.dto.BitstampMarketType.PERPETUAL;
+import static dk.clanie.bitstamp.dto.BitstampMarketType.SPOT;
+import static dk.clanie.bitstamp.dto.BitstampTradeSide.BUY;
+import static dk.clanie.bitstamp.dto.BitstampTradeSide.SELL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -59,11 +66,13 @@ class BitstampTickerListEntryTest {
 		assertThat(ticker.getVwap()).isEqualTo(84433.0);
 		assertThat(ticker.getBid()).isEqualTo(84920.0);
 		assertThat(ticker.getAsk()).isEqualTo(84921.0);
-		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.BUY);
+		assertThat(ticker.getSide()).isEqualTo(BUY);
 		assertThat(ticker.getOpen24()).isEqualTo(84878.0);
 		assertThat(ticker.getPercentChange24()).isEqualTo(0.05);
-		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
-		assertThat(ticker.getPair()).isEqualTo("BTC/USD");
+		assertThat(ticker.getMarketType()).isEqualTo(SPOT);
+		assertThat(ticker.getPair().toStringWithSlash()).isEqualTo("BTC/USD");
+		assertThat(ticker.getPair().getBaseCurrency()).isEqualTo(BTC);
+		assertThat(ticker.getPair().getQuoteCurrency()).isEqualTo(USD);
 		assertThat(ticker.getMarket()).isEqualTo("BTC/USD");
 		// Optional fields should be null for SPOT markets
 		assertThat(ticker.getIndexPrice()).isNull();
@@ -98,11 +107,11 @@ class BitstampTickerListEntryTest {
 		assertThat(ticker.getTimestamp()).isEqualTo(1763854710L);
 		assertThat(ticker.getOpen()).isEqualTo(0.0);
 		assertThat(ticker.getLast()).isEqualTo(1.20000);
-		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.SELL);
+		assertThat(ticker.getSide()).isEqualTo(SELL);
 		// Empty string should be deserialized to null
 		assertThat(ticker.getPercentChange24()).isNull();
-		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
-		assertThat(ticker.getPair()).isEqualTo("DAI/USD");
+		assertThat(ticker.getMarketType()).isEqualTo(SPOT);
+		assertThat(ticker.getPair().toStringWithSlash()).isEqualTo("DAI/USD");
 		assertThat(ticker.getMarket()).isEqualTo("DAI/USD");
 	}
 
@@ -142,11 +151,13 @@ class BitstampTickerListEntryTest {
 		assertThat(ticker.getVwap()).isEqualTo(84287.0);
 		assertThat(ticker.getBid()).isEqualTo(84927.0);
 		assertThat(ticker.getAsk()).isEqualTo(84928.0);
-		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.SELL);
+		assertThat(ticker.getSide()).isEqualTo(SELL);
 		assertThat(ticker.getOpen24()).isEqualTo(84913.0);
 		assertThat(ticker.getPercentChange24()).isEqualTo(0.02);
-		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.PERPETUAL);
-		assertThat(ticker.getPair()).isEqualTo("BTC/USD-PERP");
+		assertThat(ticker.getMarketType()).isEqualTo(PERPETUAL);
+		assertThat(ticker.getPair().toStringWithSlash()).isEqualTo("BTC/USD-PERP");
+		assertThat(ticker.getPair().getBaseCurrency()).isEqualTo(BTC);
+		assertThat(ticker.getPair().getQuoteCurrency()).isEqualTo(USD_PERP);
 		assertThat(ticker.getMarket()).isEqualTo("BTC/USD-PERP");
 		// PERPETUAL markets should have these optional fields
 		assertThat(ticker.getIndexPrice()).isEqualTo(84911.57133333334);

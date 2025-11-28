@@ -17,6 +17,9 @@
  */
 package dk.clanie.bitstamp.dto;
 
+import static dk.clanie.bitstamp.dto.BitstampMarketType.SPOT;
+import static dk.clanie.bitstamp.dto.BitstampTradeSide.BUY;
+import static dk.clanie.bitstamp.dto.BitstampTradeSide.SELL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -56,11 +59,11 @@ class BitstampTickerTest {
 		assertThat(ticker.getVolume()).isEqualTo(1234.56789012);
 		assertThat(ticker.getLow()).isEqualTo(47200.00);
 		assertThat(ticker.getAsk()).isEqualTo(47805.00);
-		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.SELL);
+		assertThat(ticker.getSide()).isEqualTo(SELL);
 		assertThat(ticker.getOpen()).isEqualTo(48500.00);
 		assertThat(ticker.getOpen24()).isEqualTo(48000.00);
 		assertThat(ticker.getPercentChange24()).isEqualTo(-0.42);
-		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
+		assertThat(ticker.getMarketType()).isEqualTo(SPOT);
 		assertThat(ticker.getIndexPrice()).isNull();
 	}
 
@@ -88,8 +91,8 @@ class BitstampTickerTest {
 		
 		assertThat(ticker.getTimestamp()).isEqualTo(1763860037L);
 		assertThat(ticker.getLast()).isEqualTo(1.15072);
-		assertThat(ticker.getSide()).isEqualTo(BitstampTradeSide.BUY);
-		assertThat(ticker.getMarketType()).isEqualTo(BitstampMarketType.SPOT);
+		assertThat(ticker.getSide()).isEqualTo(BUY);
+		assertThat(ticker.getMarketType()).isEqualTo(SPOT);
 		assertThat(ticker.getIndexPrice()).isEqualTo(1.15055);
 	}
 

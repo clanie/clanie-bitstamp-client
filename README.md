@@ -29,6 +29,39 @@ bitstamp.url=https://www.bitstamp.net/api/v2
 bitstamp.wiretap=false
 ```
 
+### Currency Pairs
+
+Bitstamp uses two formats for currency pairs:
+- **With slash** (e.g., "BTC/USD") - used in API responses
+- **Without slash** (e.g., "btcusd") - used as URL parameters in API calls
+
+The client provides classes to handle both formats:
+
+```java
+// Create currency pair from string with slash
+BitstampCurrencyPair pair = BitstampCurrencyPair.fromString("BTC/USD");
+
+// Create from enum values
+BitstampCurrencyPair pair = new BitstampCurrencyPair(
+    BitstampCurrencyCode.BTC,
+    BitstampCurrencyCode.USD
+);
+
+// Get URL parameter format (lowercase without slash)
+String urlParam = pair.toUrlParameter(); // "btcusd"
+
+// Get display format (uppercase with slash)
+String display = pair.toStringWithSlash(); // "BTC/USD"
+
+// Access individual currencies
+BitstampCurrencyCode base = pair.getBaseCurrency();  // BitstampCurrencyCode.BTC
+BitstampCurrencyCode quote = pair.getQuoteCurrency(); // BitstampCurrencyCode.USD
+
+// To get currency codes as strings
+String baseCode = pair.getBaseCurrency().getCode();  // "BTC"
+String quoteCode = pair.getQuoteCurrency().getCode(); // "USD"
+```
+
 ### Example
 
 The client is automatically configured as a Spring Bean. Just inject it:
@@ -44,6 +77,13 @@ public class MyService {
         // Get ticker data for Bitcoin/USD
         BitstampTicker ticker = bitstampClient.getTicker("btcusd");
         System.out.println("BTC Price: " + ticker.getLast());
+        
+        // Or use the currency pair helper
+        BitstampCurrencyPair pair = new BitstampCurrencyPair(
+            BitstampCurrencyCode.BTC,
+            BitstampCurrencyCode.USD
+        );
+        ticker = bitstampClient.getTicker(pair.toUrlParameter());
         
         // Get order book
         BitstampOrderBook orderBook = bitstampClient.getOrderBook("btcusd");

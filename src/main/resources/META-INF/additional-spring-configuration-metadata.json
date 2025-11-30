@@ -3,5 +3,10 @@
     "name": "bitstamp.url",
     "type": "java.lang.String",
     "description": "Base URL for Bitstamp API (default: https://www.bitstamp.net/api/v2)"
+  },
+  {
+    "name": "bitstamp.wiretap",
+    "type": "java.lang.Boolean",
+    "description": "Log requests and responses made by BitstampClient."
   }
 ]}

@@ -30,6 +30,7 @@ import dk.clanie.bitstamp.dto.BitstampTicker;
 import dk.clanie.bitstamp.dto.BitstampTickerListEntry;
 import dk.clanie.bitstamp.dto.BitstampTradingPair;
 import dk.clanie.bitstamp.dto.BitstampTransaction;
+import dk.clanie.bitstamp.dto.BitstampUserTransaction;
 import dk.clanie.web.RestClientFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -228,6 +229,121 @@ public class BitstampClient {
 	 */
 	public BitstampOhlcData getOhlcData(String currencyPair, int step) {
 		return getOhlcData(currencyPair, step, null, null, null);
+	}
+
+
+	/**
+	 * Gets user transactions (private API endpoint).
+	 * <p/>
+	 * Returns user transactions including deposits, withdrawals, and trades.
+	 * Requires authentication with API key and secret.
+	 * 
+	 * @param credentials the Bitstamp API credentials
+	 * @param currencyPair the currency pair (optional, e.g., "btcusd", "ethusd")
+	 * @param offset offset for pagination (optional)
+	 * @param limit number of transactions to return (optional, default: 100, max: 1000)
+	 * @param sort sorting order: "asc" or "desc" (optional, default: "desc")
+	 * @param sinceId return transactions since this ID (optional)
+	 * @param sinceTimestamp return transactions since this timestamp (optional)
+	 * @return list of user transactions
+	 * @throws IllegalArgumentException if credentials is null
+	 */
+	public List<BitstampUserTransaction> getUserTransactions(
+			BitstampCredentials credentials,
+			String currencyPair, 
+			Integer offset, 
+			Integer limit, 
+			String sort,
+			Long sinceId,
+			Long sinceTimestamp) {
+		
+		if (credentials == null) {
+			throw new IllegalArgumentException("Credentials cannot be null");
+		}
+
+		// Build the path
+		String path = "/api/v2/user_transactions/";
+		if (currencyPair != null && !currencyPair.isEmpty()) {
+			path = "/api/v2/user_transactions/" + currencyPair + "/";
+		}
+
+		// Build query string - used for both authentication signature and request URI
+		StringBuilder queryParams = new StringBuilder();
+		if (offset != null) {
+			queryParams.append("offset=").append(offset).append("&");
+		}
+		if (limit != null) {
+			queryParams.append("limit=").append(limit).append("&");
+		}
+		if (sort != null) {
+			queryParams.append("sort=").append(sort).append("&");
+		}
+		if (sinceId != null) {
+			queryParams.append("since_id=").append(sinceId).append("&");
+		}
+		if (sinceTimestamp != null) {
+			queryParams.append("since_timestamp=").append(sinceTimestamp).append("&");
+		}
+		
+		// Remove trailing '&' if present
+		String queryString = queryParams.length() > 0 ? 
+				queryParams.substring(0, queryParams.length() - 1) : "";
+
+		// Generate authentication headers using the exact query string
+		BitstampAuthHelper.AuthHeaders authHeaders = BitstampAuthHelper.generateAuthHeaders(
+				credentials.getApiKey(),
+				credentials.getApiSecret(),
+				"POST",
+				"www.bitstamp.net",
+				path,
+				queryString.isEmpty() ? "" : "?" + queryString,
+				"application/x-www-form-urlencoded",
+				""
+		);
+
+		// Make the authenticated request using the same query string
+		String uri = queryString.isEmpty() ? path : path + "?" + queryString;
+		return restClient.post()
+				.uri(uri)
+				.header("X-Auth", authHeaders.getXAuth())
+				.header("X-Auth-Signature", authHeaders.getXAuthSignature())
+				.header("X-Auth-Nonce", authHeaders.getXAuthNonce())
+				.header("X-Auth-Timestamp", authHeaders.getXAuthTimestamp())
+				.header("X-Auth-Version", authHeaders.getXAuthVersion())
+				.contentType(org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED)
+				.retrieve()
+				.body(new ParameterizedTypeReference<List<BitstampUserTransaction>>() {});
+	}
+
+
+	/**
+	 * Gets user transactions with default parameters (private API endpoint).
+	 * <p/>
+	 * Returns the most recent 100 user transactions in descending order.
+	 * Requires authentication with API key and secret.
+	 * 
+	 * @param credentials the Bitstamp API credentials
+	 * @return list of user transactions
+	 * @throws IllegalArgumentException if credentials is null
+	 */
+	public List<BitstampUserTransaction> getUserTransactions(BitstampCredentials credentials) {
+		return getUserTransactions(credentials, null, null, null, null, null, null);
+	}
+
+
+	/**
+	 * Gets user transactions for a specific currency pair (private API endpoint).
+	 * <p/>
+	 * Returns user transactions for the specified currency pair.
+	 * Requires authentication with API key and secret.
+	 * 
+	 * @param credentials the Bitstamp API credentials
+	 * @param currencyPair the currency pair (e.g., "btcusd", "ethusd")
+	 * @return list of user transactions
+	 * @throws IllegalArgumentException if credentials is null
+	 */
+	public List<BitstampUserTransaction> getUserTransactions(BitstampCredentials credentials, String currencyPair) {
+		return getUserTransactions(credentials, currencyPair, null, null, null, null, null);
 	}
 
 

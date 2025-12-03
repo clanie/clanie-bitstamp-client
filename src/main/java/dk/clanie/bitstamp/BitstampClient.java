@@ -40,7 +40,7 @@ public class BitstampClient {
 
 	private final RestClientFactory restClientFactory;
 
-	@Value("${bitstamp.url:https://www.bitstamp.net/api/v2}")
+	@Value("${bitstamp.url:https://www.bitstamp.net}")
 	private String baseUrl;
 
 	@Value("${bitstamp.wiretap:false}")
@@ -64,7 +64,7 @@ public class BitstampClient {
 	 */
 	public List<BitstampCurrency> getCurrencies() {
 		return restClient.get()
-				.uri("/currencies/")
+				.uri("/api/v2/currencies/")
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<BitstampCurrency>>() {});
 	}
@@ -79,7 +79,7 @@ public class BitstampClient {
 	 */
 	public List<BitstampTickerListEntry> listTickers() {
 		return restClient.get()
-				.uri("/ticker/")
+				.uri("/api/v2/ticker/")
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<BitstampTickerListEntry>>() {});
 	}
@@ -95,7 +95,7 @@ public class BitstampClient {
 	 */
 	public BitstampTicker getTicker(String currencyPair) {
 		return restClient.get()
-				.uri("/ticker/{currencyPair}/", currencyPair)
+				.uri("/api/v2/ticker/{currencyPair}/", currencyPair)
 				.retrieve()
 				.body(BitstampTicker.class);
 	}
@@ -111,7 +111,7 @@ public class BitstampClient {
 	 */
 	public BitstampTicker getHourlyTicker(String currencyPair) {
 		return restClient.get()
-				.uri("/ticker_hour/{currencyPair}/", currencyPair)
+				.uri("/api/v2/ticker_hour/{currencyPair}/", currencyPair)
 				.retrieve()
 				.body(BitstampTicker.class);
 	}
@@ -127,7 +127,7 @@ public class BitstampClient {
 	 */
 	public BitstampOrderBook getOrderBook(String currencyPair) {
 		return restClient.get()
-				.uri("/order_book/{currencyPair}/", currencyPair)
+				.uri("/api/v2/order_book/{currencyPair}/", currencyPair)
 				.retrieve()
 				.body(BitstampOrderBook.class);
 	}
@@ -145,7 +145,7 @@ public class BitstampClient {
 	public List<BitstampTransaction> getTransactions(String currencyPair, String time) {
 		return restClient.get()
 				.uri(uriBuilder -> uriBuilder
-						.path("/transactions/{currencyPair}/")
+						.path("/api/v2/transactions/{currencyPair}/")
 						.queryParam("time", time)
 						.build(currencyPair))
 				.retrieve()
@@ -163,7 +163,7 @@ public class BitstampClient {
 	 */
 	public List<BitstampTransaction> getTransactions(String currencyPair) {
 		return restClient.get()
-				.uri("/transactions/{currencyPair}/", currencyPair)
+				.uri("/api/v2/transactions/{currencyPair}/", currencyPair)
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<BitstampTransaction>>() {});
 	}
@@ -178,7 +178,7 @@ public class BitstampClient {
 	 */
 	public List<BitstampTradingPair> getTradingPairsInfo() {
 		return restClient.get()
-				.uri("/trading-pairs-info/")
+				.uri("/api/v2/trading-pairs-info/")
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<BitstampTradingPair>>() {});
 	}
@@ -200,7 +200,7 @@ public class BitstampClient {
 		return restClient.get()
 				.uri(uriBuilder -> {
 					var builder = uriBuilder
-							.path("/ohlc/{currencyPair}/")
+							.path("/api/v2/ohlc/{currencyPair}/")
 							.queryParam("step", step);
 					if (limit != null) {
 						builder.queryParam("limit", limit);
@@ -290,6 +290,7 @@ public class BitstampClient {
 				queryParams.substring(0, queryParams.length() - 1) : "";
 
 		// Generate authentication headers using the exact query string
+		// Note: Content-Type must be empty string when request body is empty (per Bitstamp API docs)
 		BitstampAuthHelper.AuthHeaders authHeaders = BitstampAuthHelper.generateAuthHeaders(
 				credentials.getApiKey(),
 				credentials.getApiSecret(),
@@ -297,11 +298,12 @@ public class BitstampClient {
 				"www.bitstamp.net",
 				path,
 				queryString.isEmpty() ? "" : "?" + queryString,
-				"application/x-www-form-urlencoded",
-				""
+				"",  // Empty content-type when body is empty
+				""   // Empty payload
 		);
 
 		// Make the authenticated request using the same query string
+		// Note: Do not set Content-Type header when body is empty (per Bitstamp API docs)
 		String uri = queryString.isEmpty() ? path : path + "?" + queryString;
 		return restClient.post()
 				.uri(uri)
@@ -310,7 +312,6 @@ public class BitstampClient {
 				.header("X-Auth-Nonce", authHeaders.getXAuthNonce())
 				.header("X-Auth-Timestamp", authHeaders.getXAuthTimestamp())
 				.header("X-Auth-Version", authHeaders.getXAuthVersion())
-				.contentType(org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED)
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<BitstampUserTransaction>>() {});
 	}

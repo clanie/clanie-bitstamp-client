@@ -17,9 +17,13 @@
  */
 package dk.clanie.bitstamp.dto;
 
+import java.time.Instant;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import dk.clanie.bitstamp.jackson.BitstampDateTimeDeserializer;
 import lombok.Value;
 
 /**
@@ -32,7 +36,10 @@ import lombok.Value;
 public class BitstampUserTransaction {
 
 	long id;
-	long datetime;
+	
+	@JsonDeserialize(using = BitstampDateTimeDeserializer.class)
+	Instant datetime;
+	
 	BitstampUserTransactionType type;
 	
 	// Currency amounts (can be null)
@@ -103,7 +110,7 @@ public class BitstampUserTransaction {
 	@JsonCreator
 	public BitstampUserTransaction(
 			@JsonProperty("id") long id,
-			@JsonProperty("datetime") long datetime,
+			@JsonProperty("datetime") Instant datetime,
 			@JsonProperty("type") BitstampUserTransactionType type,
 			@JsonProperty("usd") Double usd,
 			@JsonProperty("eur") Double eur,

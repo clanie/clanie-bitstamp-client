@@ -26,6 +26,22 @@ The client has been refactored to support multi-user and multi-tenant systems:
 - All `getUserTransactions()` methods now require a `BitstampCredentials` parameter
 - Updated README with credentials management examples
 
+### Deserialization Fixes
+
+Fixed deserialization issues with Bitstamp API responses:
+
+**BitstampMonetaryAmount:**
+- Created to handle monetary amounts returned as strings with currency (e.g., "10 USD")
+- Used in `BitstampTradingPair.minimumOrder`
+- Uses `double` for amount and `BitstampCurrencyCode` enum for currency
+- Custom deserializer: `BitstampMonetaryAmountDeserializer`
+
+**BitstampDateTimeDeserializer:**
+- Created to handle datetime strings in format "yyyy-MM-dd HH:mm:ss.SSSSSS"
+- Used in `BitstampUserTransaction.datetime`
+- Converts to `Instant` (UTC timezone)
+- Jackson cannot parse this format out of the box, so custom deserializer is required
+
 ## Changes Made
 
 ### New Files Created

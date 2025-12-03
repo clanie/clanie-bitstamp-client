@@ -17,6 +17,8 @@
  */
 package dk.clanie.bitstamp;
 
+import static dk.clanie.core.Utils.asString;
+
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -68,7 +70,7 @@ public class BitstampAuthHelper {
 			String contentType,
 			String payload) {
 		
-		String nonce = UUID.randomUUID().toString();
+		String nonce = asString(UUID.randomUUID());
 		long timestamp = System.currentTimeMillis();
 		String version = "v2";
 		

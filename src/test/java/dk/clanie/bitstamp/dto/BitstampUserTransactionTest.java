@@ -53,8 +53,8 @@ class BitstampUserTransactionTest {
 		assertEquals(123456789L, transaction.getId());
 		assertEquals(Instant.parse("2025-01-15T13:29:19.362050Z"), transaction.getDatetime());
 		assertEquals(BitstampUserTransactionType.MARKET_TRADE, transaction.getType());
-		assertEquals(-100.50, transaction.getUsd());
-		assertEquals(0.0025, transaction.getBtc());
+		assertEquals(-100.50, transaction.getAmount(BitstampCurrencyCode.USD));
+		assertEquals(0.0025, transaction.getAmount(BitstampCurrencyCode.BTC));
 		assertEquals(0.50, transaction.getFee());
 		assertEquals(987654321L, transaction.getOrderId());
 		assertEquals("BTC/USD", transaction.getMarket());
@@ -96,6 +96,104 @@ class BitstampUserTransactionTest {
 		assertEquals(987654321L, transaction.getId());
 		assertEquals(Instant.parse("2018-01-15T11:56:24Z"), transaction.getDatetime());
 		assertEquals(BitstampUserTransactionType.WITHDRAWAL, transaction.getType());
+	}
+
+
+	@Test
+	void testDeserializeMultipleCurrencies() throws Exception {
+		String json = """
+			{
+				"id": 555555555,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 2,
+				"usd": -5000.00,
+				"eur": 1000.00,
+				"btc": 0.125,
+				"eth": 2.5,
+				"usdt": 500.00,
+				"fee": 10.00,
+				"order_id": 111222333,
+				"market": "BTC/USD"
+			}
+		""";
+		
+		BitstampUserTransaction transaction = objectMapper.readValue(json, BitstampUserTransaction.class);
+		
+		assertNotNull(transaction);
+		assertEquals(555555555L, transaction.getId());
+		
+		// Verify all currency amounts are captured in the map
+		assertEquals(-5000.00, transaction.getAmount(BitstampCurrencyCode.USD));
+		assertEquals(1000.00, transaction.getAmount(BitstampCurrencyCode.EUR));
+		assertEquals(0.125, transaction.getAmount(BitstampCurrencyCode.BTC));
+		assertEquals(2.5, transaction.getAmount(BitstampCurrencyCode.ETH));
+		assertEquals(500.00, transaction.getAmount(BitstampCurrencyCode.USDT));
+		
+		// Verify currency not present returns null
+		assertEquals(null, transaction.getAmount(BitstampCurrencyCode.XRP));
+		
+		// Verify the map contains exactly 5 currencies
+		assertEquals(5, transaction.getCurrencyAmounts().size());
+	}
+
+
+	@Test
+	void testDeserializeStringCurrencyAmounts() throws Exception {
+		String json = """
+			{
+				"id": 777777777,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 2,
+				"usd": "-1234.56",
+				"btc": "0.00012345",
+				"eth": "1.5",
+				"fee": "5.50",
+				"order_id": 999888777
+			}
+		""";
+		
+		BitstampUserTransaction transaction = objectMapper.readValue(json, BitstampUserTransaction.class);
+		
+		assertNotNull(transaction);
+		assertEquals(777777777L, transaction.getId());
+		
+		// Verify string currency amounts are parsed correctly
+		assertEquals(-1234.56, transaction.getAmount(BitstampCurrencyCode.USD));
+		assertEquals(0.00012345, transaction.getAmount(BitstampCurrencyCode.BTC));
+		assertEquals(1.5, transaction.getAmount(BitstampCurrencyCode.ETH));
+		assertEquals(5.50, transaction.getFee());
+		
+		// Verify the map contains exactly 3 currencies
+		assertEquals(3, transaction.getCurrencyAmounts().size());
+	}
+
+
+	@Test
+	void testDeserializeMixedNumberAndStringAmounts() throws Exception {
+		String json = """
+			{
+				"id": 888888888,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 2,
+				"usd": -100.50,
+				"btc": "0.0025",
+				"eth": 2.5,
+				"usdt": "500.00",
+				"fee": 0.50
+			}
+		""";
+		
+		BitstampUserTransaction transaction = objectMapper.readValue(json, BitstampUserTransaction.class);
+		
+		assertNotNull(transaction);
+		
+		// Verify mixed number and string values are handled correctly
+		assertEquals(-100.50, transaction.getAmount(BitstampCurrencyCode.USD));
+		assertEquals(0.0025, transaction.getAmount(BitstampCurrencyCode.BTC));
+		assertEquals(2.5, transaction.getAmount(BitstampCurrencyCode.ETH));
+		assertEquals(500.00, transaction.getAmount(BitstampCurrencyCode.USDT));
+		
+		assertEquals(4, transaction.getCurrencyAmounts().size());
 	}
 
 }

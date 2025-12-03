@@ -18,93 +18,43 @@
 package dk.clanie.bitstamp.dto;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import dk.clanie.bitstamp.jackson.BitstampDateTimeDeserializer;
-import lombok.Value;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Represents a user transaction.
  * <p/>
  * User transactions include deposits, withdrawals, trades, and fees.
- * All monetary amounts are represented as Double values.
+ * Currency amounts are stored in a map with BitstampCurrencyCode as keys.
  */
-@Value
+@Getter
+@Slf4j
 public class BitstampUserTransaction {
 
-	long id;
+	private final long id;
 	
 	@JsonDeserialize(using = BitstampDateTimeDeserializer.class)
-	Instant datetime;
+	private final Instant datetime;
 	
-	BitstampUserTransactionType type;
+	private final BitstampUserTransactionType type;
 	
-	// Currency amounts (can be null)
-	Double usd;
-	Double eur;
-	Double btc;
-	Double eth;
-	Double ltc;
-	Double xrp;
-	Double bch;
-	Double xlm;
-	Double pax;
-	Double link;
-	Double usdc;
-	Double aave;
-	Double bat;
-	Double uma;
-	Double dai;
-	Double knc;
-	Double mkr;
-	Double zrx;
-	Double gusd;
-	Double algo;
-	Double audio;
-	Double crv;
-	Double snx;
-	Double uni;
-	Double yfi;
-	Double comp;
-	Double grt;
-	Double usdt;
-	Double eurt;
-	Double matic;
-	Double sushi;
-	Double chz;
-	Double enj;
-	Double hbar;
-	Double alpha;
-	Double axs;
-	Double ftt;
-	Double sand;
-	Double storj;
-	Double ada;
-	Double avax;
-	Double dot;
-	Double sol;
-	Double ftm;
-	Double mana;
-	Double dydx;
-	Double gala;
-	Double shib;
-	Double amp;
-	Double sgb;
-	Double wbtc;
-	Double perp;
-	Double ape;
+	private final Map<BitstampCurrencyCode, Double> currencyAmounts;
 	
-	// Fee information
-	Double fee;
+	private final Double fee;
 	
-	// Order ID (for trades)
-	Long orderId;
+	private final Long orderId;
 	
-	// Market/pair (for trades)
-	String market;
+	private final String market;
 
 
 	@JsonCreator
@@ -112,121 +62,61 @@ public class BitstampUserTransaction {
 			@JsonProperty("id") long id,
 			@JsonProperty("datetime") Instant datetime,
 			@JsonProperty("type") BitstampUserTransactionType type,
-			@JsonProperty("usd") Double usd,
-			@JsonProperty("eur") Double eur,
-			@JsonProperty("btc") Double btc,
-			@JsonProperty("eth") Double eth,
-			@JsonProperty("ltc") Double ltc,
-			@JsonProperty("xrp") Double xrp,
-			@JsonProperty("bch") Double bch,
-			@JsonProperty("xlm") Double xlm,
-			@JsonProperty("pax") Double pax,
-			@JsonProperty("link") Double link,
-			@JsonProperty("usdc") Double usdc,
-			@JsonProperty("aave") Double aave,
-			@JsonProperty("bat") Double bat,
-			@JsonProperty("uma") Double uma,
-			@JsonProperty("dai") Double dai,
-			@JsonProperty("knc") Double knc,
-			@JsonProperty("mkr") Double mkr,
-			@JsonProperty("zrx") Double zrx,
-			@JsonProperty("gusd") Double gusd,
-			@JsonProperty("algo") Double algo,
-			@JsonProperty("audio") Double audio,
-			@JsonProperty("crv") Double crv,
-			@JsonProperty("snx") Double snx,
-			@JsonProperty("uni") Double uni,
-			@JsonProperty("yfi") Double yfi,
-			@JsonProperty("comp") Double comp,
-			@JsonProperty("grt") Double grt,
-			@JsonProperty("usdt") Double usdt,
-			@JsonProperty("eurt") Double eurt,
-			@JsonProperty("matic") Double matic,
-			@JsonProperty("sushi") Double sushi,
-			@JsonProperty("chz") Double chz,
-			@JsonProperty("enj") Double enj,
-			@JsonProperty("hbar") Double hbar,
-			@JsonProperty("alpha") Double alpha,
-			@JsonProperty("axs") Double axs,
-			@JsonProperty("ftt") Double ftt,
-			@JsonProperty("sand") Double sand,
-			@JsonProperty("storj") Double storj,
-			@JsonProperty("ada") Double ada,
-			@JsonProperty("avax") Double avax,
-			@JsonProperty("dot") Double dot,
-			@JsonProperty("sol") Double sol,
-			@JsonProperty("ftm") Double ftm,
-			@JsonProperty("mana") Double mana,
-			@JsonProperty("dydx") Double dydx,
-			@JsonProperty("gala") Double gala,
-			@JsonProperty("shib") Double shib,
-			@JsonProperty("amp") Double amp,
-			@JsonProperty("sgb") Double sgb,
-			@JsonProperty("wbtc") Double wbtc,
-			@JsonProperty("perp") Double perp,
-			@JsonProperty("ape") Double ape,
 			@JsonProperty("fee") Double fee,
 			@JsonProperty("order_id") Long orderId,
 			@JsonProperty("market") String market) {
 		this.id = id;
 		this.datetime = datetime;
 		this.type = type;
-		this.usd = usd;
-		this.eur = eur;
-		this.btc = btc;
-		this.eth = eth;
-		this.ltc = ltc;
-		this.xrp = xrp;
-		this.bch = bch;
-		this.xlm = xlm;
-		this.pax = pax;
-		this.link = link;
-		this.usdc = usdc;
-		this.aave = aave;
-		this.bat = bat;
-		this.uma = uma;
-		this.dai = dai;
-		this.knc = knc;
-		this.mkr = mkr;
-		this.zrx = zrx;
-		this.gusd = gusd;
-		this.algo = algo;
-		this.audio = audio;
-		this.crv = crv;
-		this.snx = snx;
-		this.uni = uni;
-		this.yfi = yfi;
-		this.comp = comp;
-		this.grt = grt;
-		this.usdt = usdt;
-		this.eurt = eurt;
-		this.matic = matic;
-		this.sushi = sushi;
-		this.chz = chz;
-		this.enj = enj;
-		this.hbar = hbar;
-		this.alpha = alpha;
-		this.axs = axs;
-		this.ftt = ftt;
-		this.sand = sand;
-		this.storj = storj;
-		this.ada = ada;
-		this.avax = avax;
-		this.dot = dot;
-		this.sol = sol;
-		this.ftm = ftm;
-		this.mana = mana;
-		this.dydx = dydx;
-		this.gala = gala;
-		this.shib = shib;
-		this.amp = amp;
-		this.sgb = sgb;
-		this.wbtc = wbtc;
-		this.perp = perp;
-		this.ape = ape;
+		this.currencyAmounts = new HashMap<>();
 		this.fee = fee;
 		this.orderId = orderId;
 		this.market = market;
+	}
+
+
+	@JsonAnySetter
+	@JsonIgnore
+	public void setCurrencyAmount(String key, Object value) {
+		if (value == null) {
+			log.debug("Ignoring null value for property: {}", key);
+			return;
+		}
+		
+		// Try to parse as currency amount (Number or String)
+		Double amount = null;
+		if (value instanceof Number) {
+			amount = ((Number) value).doubleValue();
+		} else if (value instanceof String) {
+			try {
+				amount = Double.parseDouble((String) value);
+			} catch (NumberFormatException e) {
+				log.debug("Ignoring non-numeric string value for property '{}': {}", key, value);
+				return;
+			}
+		} else {
+			log.debug("Ignoring property '{}' with unsupported type {}: {}", key, value.getClass().getSimpleName(), value);
+			return;
+		}
+		
+		// Try to match to a known currency code
+		try {
+			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.valueOf(key.toUpperCase());
+			currencyAmounts.put(currencyCode, amount);
+		} catch (IllegalArgumentException e) {
+			log.debug("Ignoring unknown currency code '{}' with value: {}", key, amount);
+		}
+	}
+
+
+	/**
+	 * Get the amount for a specific currency.
+	 * 
+	 * @param currencyCode the currency code
+	 * @return the amount, or null if not present
+	 */
+	public Double getAmount(BitstampCurrencyCode currencyCode) {
+		return currencyAmounts.get(currencyCode);
 	}
 
 }

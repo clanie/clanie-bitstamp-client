@@ -196,4 +196,113 @@ class BitstampUserTransactionTest {
 		assertEquals(4, transaction.getCurrencyAmounts().size());
 	}
 
+
+	@Test
+	void testDeserializeWithExchangeRate() throws Exception {
+		String json = """
+			{
+				"id": 999999999,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 2,
+				"usd": -94201.00,
+				"btc": 1.0,
+				"btc_usd": 94201.0,
+				"fee": 50.00,
+				"order_id": 123456789,
+				"market": "BTC/USD"
+			}
+		""";
+		
+		BitstampUserTransaction transaction = objectMapper.readValue(json, BitstampUserTransaction.class);
+		
+		assertNotNull(transaction);
+		assertEquals(999999999L, transaction.getId());
+		
+		// Verify currency amounts
+		assertEquals(-94201.00, transaction.getAmount(BitstampCurrencyCode.USD));
+		assertEquals(1.0, transaction.getAmount(BitstampCurrencyCode.BTC));
+		
+		// Verify exchange rate is captured
+		assertNotNull(transaction.getExchangeRate());
+		BitstampCurrencyPair btcUsd = new BitstampCurrencyPair(BitstampCurrencyCode.BTC, BitstampCurrencyCode.USD);
+		assertEquals(btcUsd, transaction.getExchangeRate().getCurrencyPair());
+		assertEquals(94201.0, transaction.getExchangeRate().getRate());
+	}
+
+
+	@Test
+	void testDeserializeTransactionTypes() throws Exception {
+		// Test DEPOSIT (type 0)
+		String depositJson = """
+			{
+				"id": 1,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 0,
+				"btc": 1.0
+			}
+		""";
+		BitstampUserTransaction deposit = objectMapper.readValue(depositJson, BitstampUserTransaction.class);
+		assertEquals(BitstampUserTransactionType.DEPOSIT, deposit.getType());
+		
+		// Test WITHDRAWAL (type 1)
+		String withdrawalJson = """
+			{
+				"id": 2,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 1,
+				"eur": -1000.0,
+				"fee": 3.0
+			}
+		""";
+		BitstampUserTransaction withdrawal = objectMapper.readValue(withdrawalJson, BitstampUserTransaction.class);
+		assertEquals(BitstampUserTransactionType.WITHDRAWAL, withdrawal.getType());
+		
+		// Test MARKET_TRADE (type 2)
+		String tradeJson = """
+			{
+				"id": 3,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 2,
+				"btc": -0.1,
+				"eur": 9000.0,
+				"btc_eur": 90000.0,
+				"fee": 5.0
+			}
+		""";
+		BitstampUserTransaction trade = objectMapper.readValue(tradeJson, BitstampUserTransaction.class);
+		assertEquals(BitstampUserTransactionType.MARKET_TRADE, trade.getType());
+	}
+
+
+	@Test
+	void testDeserializeWithMultipleExchangeRates() throws Exception {
+		String json = """
+			{
+				"id": 111111111,
+				"datetime": "2025-01-15 13:29:19.362050",
+				"type": 2,
+				"eur": -94201.00,
+				"btc": 1.0,
+				"usd": 100000.00,
+				"btc_eur": 94201.0,
+				"fee": 50.00
+			}
+		""";
+		
+		BitstampUserTransaction transaction = objectMapper.readValue(json, BitstampUserTransaction.class);
+		
+		assertNotNull(transaction);
+		
+		// Verify currency amounts
+		assertEquals(-94201.00, transaction.getAmount(BitstampCurrencyCode.EUR));
+		assertEquals(1.0, transaction.getAmount(BitstampCurrencyCode.BTC));
+		assertEquals(100000.00, transaction.getAmount(BitstampCurrencyCode.USD));
+		
+		// Verify exchange rate is captured (only one exchange rate field now)
+		assertNotNull(transaction.getExchangeRate());
+		BitstampCurrencyPair btcEur = new BitstampCurrencyPair(BitstampCurrencyCode.BTC, BitstampCurrencyCode.EUR);
+		assertEquals(btcEur, transaction.getExchangeRate().getCurrencyPair());
+		assertEquals(94201.0, transaction.getExchangeRate().getRate());
+	}
+
 }

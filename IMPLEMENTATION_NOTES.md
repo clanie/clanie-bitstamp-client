@@ -60,9 +60,11 @@ Fixed deserialization issues with Bitstamp API responses:
 3. **BitstampUserTransaction.java**
    - DTO for user transaction data
    - Uses `Map<BitstampCurrencyCode, Double>` for currency amounts (dynamic, scalable)
-   - `@JsonAnySetter` captures all currency fields from JSON automatically
-   - Fields: id, datetime, type, currencyAmounts (map), fee, orderId, market
+   - Has `BitstampExchangeRate` property for exchange rate (e.g., "btc_eur": 94201.0)
+   - `@JsonAnySetter` captures all currency fields and exchange rate field from JSON automatically
+   - Fields: id, datetime, type, currencyAmounts (map), exchangeRate, fee, orderId, market
    - Provides `getAmount(BitstampCurrencyCode)` method for easy access to specific currencies
+   - Exchange rate accessible via `getExchangeRate()` which returns BitstampExchangeRate object
 
 4. **BitstampUserTransactionType.java**
    - Enum for user transaction types

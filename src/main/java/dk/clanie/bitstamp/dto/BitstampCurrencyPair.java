@@ -79,6 +79,29 @@ public class BitstampCurrencyPair {
 		return new BitstampCurrencyPair(base, quote);
 	}
 
+
+	/**
+	 * Parses a currency pair string with underscore (e.g., "btc_eur").
+	 * This format is used in user transactions for exchange rates.
+	 *
+	 * @param pairWithUnderscore the pair string with underscore
+	 * @return the currency pair
+	 * @throws IllegalArgumentException if the format is invalid
+	 */
+	public static BitstampCurrencyPair fromUnderscoreFormat(String pairWithUnderscore) {
+		if (pairWithUnderscore == null || pairWithUnderscore.isEmpty()) {
+			throw new IllegalArgumentException("Pair string cannot be null or empty");
+		}
+		String[] parts = pairWithUnderscore.split("_");
+		if (parts.length != 2) {
+			throw new IllegalArgumentException(
+					"Invalid pair format. Expected format: base_quote, got: " + pairWithUnderscore);
+		}
+		BitstampCurrencyCode base = BitstampCurrencyCode.fromString(parts[0].toUpperCase());
+		BitstampCurrencyCode quote = BitstampCurrencyCode.fromString(parts[1].toUpperCase());
+		return new BitstampCurrencyPair(base, quote);
+	}
+
 	/**
 	 * Returns the pair in the format with slash (e.g., "BTC/USD").
 	 * This format is used in API responses.

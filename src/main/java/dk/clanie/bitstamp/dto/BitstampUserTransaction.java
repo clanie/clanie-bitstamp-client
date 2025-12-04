@@ -17,6 +17,8 @@
  */
 package dk.clanie.bitstamp.dto;
 
+import static dk.clanie.core.Utils.asString;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,19 +44,23 @@ import lombok.extern.slf4j.Slf4j;
 public class BitstampUserTransaction {
 
 	private final long id;
-	
+
 	@JsonDeserialize(using = BitstampDateTimeDeserializer.class)
 	private final Instant datetime;
-	
+
 	private final BitstampUserTransactionType type;
-	
+
 	private final Map<BitstampCurrencyCode, Double> currencyAmounts;
-	
+
+	private BitstampExchangeRate exchangeRate;
+
 	private final Double fee;
-	
+
 	private final Long orderId;
-	
+
 	private final String market;
+
+	private final Map<String, Object> additionalProperties = new HashMap<>();
 
 
 	@JsonCreator
@@ -69,6 +75,7 @@ public class BitstampUserTransaction {
 		this.datetime = datetime;
 		this.type = type;
 		this.currencyAmounts = new HashMap<>();
+		this.exchangeRate = null;
 		this.fee = fee;
 		this.orderId = orderId;
 		this.market = market;
@@ -82,29 +89,46 @@ public class BitstampUserTransaction {
 			log.debug("Ignoring null value for property: {}", key);
 			return;
 		}
-		
-		// Try to parse as currency amount (Number or String)
-		Double amount = null;
-		if (value instanceof Number) {
-			amount = ((Number) value).doubleValue();
-		} else if (value instanceof String) {
-			try {
-				amount = Double.parseDouble((String) value);
-			} catch (NumberFormatException e) {
-				log.debug("Ignoring non-numeric string value for property '{}': {}", key, value);
+
+		// Try to parse as numeric value (Number or String)
+		Double numericValue = null;
+		try {
+			if (value instanceof Number number) {
+				numericValue = number.doubleValue();
+			} else if (value instanceof String string) {
+				numericValue = Double.parseDouble(string);
+			} else {
+				log.debug("Ignoring property '{}' with non-numeric type {}: {}", key, value.getClass().getSimpleName(), asString(value));
+				additionalProperties.put(key, value);
 				return;
 			}
-		} else {
-			log.debug("Ignoring property '{}' with unsupported type {}: {}", key, value.getClass().getSimpleName(), value);
+		} catch (NumberFormatException e) {
+			log.debug("Ignoring property '{}' with non-numeric string value: {}", key, asString(value));
+			additionalProperties.put(key, value);
 			return;
 		}
-		
+
+		// Check if it's a currency pair (contains underscore)
+		if (key.contains("_")) {
+			try {
+				BitstampCurrencyPair currencyPair = BitstampCurrencyPair.fromUnderscoreFormat(key);
+				this.exchangeRate = new BitstampExchangeRate(currencyPair, numericValue);
+				log.debug("Captured exchange rate: {} = {}", currencyPair, numericValue);
+				return;
+			} catch (IllegalArgumentException e) {
+				log.debug("Property '{}' contains underscore but is not a valid currency pair, value: {}", key, asString(value));
+				additionalProperties.put(key, value);
+				return;
+			}
+		}
+
 		// Try to match to a known currency code
 		try {
 			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.valueOf(key.toUpperCase());
-			currencyAmounts.put(currencyCode, amount);
+			currencyAmounts.put(currencyCode, numericValue);
 		} catch (IllegalArgumentException e) {
-			log.debug("Ignoring unknown currency code '{}' with value: {}", key, amount);
+			log.debug("Ignoring unknown currency code or other property '{}' with value: {}", key, asString(value));
+			additionalProperties.put(key, value);
 		}
 	}
 

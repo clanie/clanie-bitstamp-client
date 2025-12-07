@@ -266,7 +266,7 @@ public class BitstampClient {
 			Long sinceId,
 			Long sinceTimestamp,
 			Long untilTimestamp) {
-		
+
 		if (credentials == null) {
 			throw new IllegalArgumentException("Credentials cannot be null");
 		}
@@ -293,8 +293,7 @@ public class BitstampClient {
 		}
 		if (sinceTimestamp != null) {
 			// Validate sinceTimestamp is not older than 30 days
-			long maxSinceTimestamp =
-			Instant.now().minus(Duration.ofDays(30)).toEpochMilli();
+			long maxSinceTimestamp = Instant.now().minus(Duration.ofDays(30)).toEpochMilli();
 			if (sinceTimestamp != null && sinceTimestamp < maxSinceTimestamp) {
 				throw new IllegalArgumentException("sinceTimestamp cannot be older than 30 days");
 			}
@@ -323,8 +322,8 @@ public class BitstampClient {
 				path,
 				"",
 				hasQueryParams ? "application/x-www-form-urlencoded" : "",  // Empty content-type when body is empty
-				queryString	// Payload
-		);
+						queryString	// Payload
+				);
 
 		// Make the authenticated request using the same query string
 		// Note: Do not set Content-Type header when body is empty (per Bitstamp API docs)

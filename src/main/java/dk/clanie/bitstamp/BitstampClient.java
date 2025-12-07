@@ -17,11 +17,16 @@
  */
 package dk.clanie.bitstamp;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient.RequestBodySpec;
 
 import dk.clanie.bitstamp.dto.BitstampCurrency;
 import dk.clanie.bitstamp.dto.BitstampOhlcData;
@@ -31,11 +36,14 @@ import dk.clanie.bitstamp.dto.BitstampTickerListEntry;
 import dk.clanie.bitstamp.dto.BitstampTradingPair;
 import dk.clanie.bitstamp.dto.BitstampTransaction;
 import dk.clanie.bitstamp.dto.BitstampUserTransaction;
+import dk.clanie.core.util.SortDirection;
 import dk.clanie.web.RestClientFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
+@Slf4j
 public class BitstampClient {
 
 	private final RestClientFactory restClientFactory;
@@ -244,7 +252,8 @@ public class BitstampClient {
 	 * @param limit number of transactions to return (optional, default: 100, max: 1000)
 	 * @param sort sorting order: "asc" or "desc" (optional, default: "desc")
 	 * @param sinceId return transactions since this ID (optional)
-	 * @param sinceTimestamp return transactions since this timestamp (optional)
+	 * @param sinceTimestamp return transactions since this timestamp (optional, max 30 days back)
+	 * @param untilTimestamp return transactions until this timestamp (optional, max 30 days back)
 	 * @return list of user transactions
 	 * @throws IllegalArgumentException if credentials is null
 	 */
@@ -253,9 +262,10 @@ public class BitstampClient {
 			String currencyPair, 
 			Integer offset, 
 			Integer limit, 
-			String sort,
+			SortDirection sort,
 			Long sinceId,
-			Long sinceTimestamp) {
+			Long sinceTimestamp,
+			Long untilTimestamp) {
 		
 		if (credentials == null) {
 			throw new IllegalArgumentException("Credentials cannot be null");
@@ -276,18 +286,32 @@ public class BitstampClient {
 			queryParams.append("limit=").append(limit).append("&");
 		}
 		if (sort != null) {
-			queryParams.append("sort=").append(sort).append("&");
+			queryParams.append("sort=").append(sort.isAscending() ? "asc" : "desc").append("&");
 		}
 		if (sinceId != null) {
 			queryParams.append("since_id=").append(sinceId).append("&");
 		}
 		if (sinceTimestamp != null) {
+			// Validate sinceTimestamp is not older than 30 days
+			long maxSinceTimestamp =
+			Instant.now().minus(Duration.ofDays(30)).toEpochMilli();
+			if (sinceTimestamp != null && sinceTimestamp < maxSinceTimestamp) {
+				throw new IllegalArgumentException("sinceTimestamp cannot be older than 30 days");
+			}
 			queryParams.append("since_timestamp=").append(sinceTimestamp).append("&");
 		}
-		
+		if (untilTimestamp != null) {
+			// Validate untilTimestamp is not older than 30 days
+			long maxUntilTimestamp = Instant.now().minus(Duration.ofDays(30)).toEpochMilli();
+			if (untilTimestamp != null && untilTimestamp < maxUntilTimestamp) {
+				throw new IllegalArgumentException("untilTimestamp cannot be older than 30 days");
+			}
+			queryParams.append("until_timestamp=").append(untilTimestamp).append("&");
+		}
 		// Remove trailing '&' if present
 		String queryString = queryParams.length() > 0 ? 
 				queryParams.substring(0, queryParams.length() - 1) : "";
+		boolean hasQueryParams = isNotBlank(queryString);
 
 		// Generate authentication headers using the exact query string
 		// Note: Content-Type must be empty string when request body is empty (per Bitstamp API docs)
@@ -297,21 +321,27 @@ public class BitstampClient {
 				"POST",
 				"www.bitstamp.net",
 				path,
-				queryString.isEmpty() ? "" : "?" + queryString,
-				"",  // Empty content-type when body is empty
-				""   // Empty payload
+				"",
+				hasQueryParams ? "application/x-www-form-urlencoded" : "",  // Empty content-type when body is empty
+				queryString	// Payload
 		);
 
 		// Make the authenticated request using the same query string
 		// Note: Do not set Content-Type header when body is empty (per Bitstamp API docs)
-		String uri = queryString.isEmpty() ? path : path + "?" + queryString;
-		return restClient.post()
+		String uri = queryString.isEmpty() ? path : path ; // + "?" + queryString;
+		RequestBodySpec requestBodySpec = restClient.post()
 				.uri(uri)
 				.header("X-Auth", authHeaders.getXAuth())
 				.header("X-Auth-Signature", authHeaders.getXAuthSignature())
 				.header("X-Auth-Nonce", authHeaders.getXAuthNonce())
 				.header("X-Auth-Timestamp", authHeaders.getXAuthTimestamp())
-				.header("X-Auth-Version", authHeaders.getXAuthVersion())
+				.header("X-Auth-Version", authHeaders.getXAuthVersion());
+		if (hasQueryParams) {
+			// Set content-type to "application/x-www-form-urlencoded" only if there are query parameters
+			requestBodySpec = requestBodySpec.header("Content-Type", "application/x-www-form-urlencoded")
+					.body(queryString);
+		}
+		return requestBodySpec
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<BitstampUserTransaction>>() {});
 	}
@@ -328,7 +358,7 @@ public class BitstampClient {
 	 * @throws IllegalArgumentException if credentials is null
 	 */
 	public List<BitstampUserTransaction> getUserTransactions(BitstampCredentials credentials) {
-		return getUserTransactions(credentials, null, null, null, null, null, null);
+		return getUserTransactions(credentials, null, null, null, null, null, null, null);
 	}
 
 
@@ -344,7 +374,7 @@ public class BitstampClient {
 	 * @throws IllegalArgumentException if credentials is null
 	 */
 	public List<BitstampUserTransaction> getUserTransactions(BitstampCredentials credentials, String currencyPair) {
-		return getUserTransactions(credentials, currencyPair, null, null, null, null, null);
+		return getUserTransactions(credentials, currencyPair, null, null, null, null, null, null);
 	}
 
 

@@ -251,7 +251,7 @@ public class BitstampClient {
 	 * @param offset offset for pagination (optional)
 	 * @param limit number of transactions to return (optional, default: 100, max: 1000)
 	 * @param sort sorting order: "asc" or "desc" (optional, default: "desc")
-	 * @param sinceId return transactions since this ID (optional)
+	 * @param sinceId return transactions since this ID (optional, forces limit=1000)
 	 * @param sinceTimestamp return transactions since this timestamp (optional, max 30 days back)
 	 * @param untilTimestamp return transactions until this timestamp (optional, max 30 days back)
 	 * @return list of user transactions

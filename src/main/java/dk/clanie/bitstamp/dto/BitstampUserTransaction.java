@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import dk.clanie.bitstamp.jackson.BitstampDateTimeDeserializer;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * Currency amounts are stored in a map with BitstampCurrencyCode as keys.
  */
 @Getter
+@ToString
 @Slf4j
 public class BitstampUserTransaction {
 
@@ -113,7 +115,7 @@ public class BitstampUserTransaction {
 			try {
 				BitstampCurrencyPair currencyPair = BitstampCurrencyPair.fromUnderscoreFormat(key);
 				this.exchangeRate = new BitstampExchangeRate(currencyPair, numericValue);
-				log.debug("Captured exchange rate: {} = {}", currencyPair, numericValue);
+				log.trace("Captured exchange rate: {} = {}", currencyPair, numericValue);
 				return;
 			} catch (IllegalArgumentException e) {
 				log.debug("Property '{}' contains underscore but is not a valid currency pair, value: {}", key, asString(value));

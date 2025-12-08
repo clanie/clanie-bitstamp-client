@@ -20,9 +20,12 @@ package dk.clanie.bitstamp.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import lombok.Getter;
+
 /**
  * User transaction types.
  */
+@Getter
 public enum BitstampUserTransactionType {
 
 	DEPOSIT(0, "deposit"),
@@ -36,22 +39,17 @@ public enum BitstampUserTransactionType {
 	REFERRAL_REWARD(35, "referral_reward"),
 	INTER_ACCOUNT_TRANSFER(40, "inter_account_transfer");
 
+	@JsonValue
 	private final int code;
+
 	private final String name;
+
 
 	BitstampUserTransactionType(int code, String name) {
 		this.code = code;
 		this.name = name;
 	}
 
-	@JsonValue
-	public int getCode() {
-		return code;
-	}
-
-	public String getName() {
-		return name;
-	}
 
 	@JsonCreator
 	public static BitstampUserTransactionType fromCode(int code) {
@@ -62,5 +60,6 @@ public enum BitstampUserTransactionType {
 		}
 		throw new IllegalArgumentException("Unknown user transaction type code: " + code);
 	}
+
 
 }

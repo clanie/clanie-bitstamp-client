@@ -43,7 +43,7 @@ public class BitstampAccountBalance {
 			@JsonProperty("available") Double available,
 			@JsonProperty("reserved") Double reserved,
 			@JsonProperty("total") Double total) {
-		this.currency = BitstampCurrencyCode.valueOf(currency.toUpperCase());
+		this.currency = BitstampCurrencyCode.fromString(currency);
 		this.available = available;
 		this.reserved = reserved;
 		this.total = total;

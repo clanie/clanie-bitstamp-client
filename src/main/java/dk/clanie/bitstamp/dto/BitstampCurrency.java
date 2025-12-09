@@ -31,7 +31,7 @@ import lombok.Value;
 public class BitstampCurrency {
 
 	String name;
-	String currency;
+	BitstampCurrencyCode currency;
 	BitstampCurrencyType type;
 	String symbol;
 	Integer decimals;
@@ -55,7 +55,7 @@ public class BitstampCurrency {
 			@JsonProperty("withdrawal") BitstampAvailabilityStatus withdrawal,
 			@JsonProperty("networks") List<BitstampCurrencyNetwork> networks) {
 		this.name = name;
-		this.currency = currency;
+		this.currency = BitstampCurrencyCode.fromString(currency);
 		this.type = type;
 		this.symbol = symbol;
 		this.decimals = decimals;

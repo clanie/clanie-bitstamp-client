@@ -30,6 +30,7 @@ import org.springframework.web.client.RestClient.RequestBodySpec;
 
 import dk.clanie.bitstamp.dto.BitstampAccountBalance;
 import dk.clanie.bitstamp.dto.BitstampCurrency;
+import dk.clanie.bitstamp.dto.BitstampCurrencyCode;
 import dk.clanie.bitstamp.dto.BitstampOhlcData;
 import dk.clanie.bitstamp.dto.BitstampOrderBook;
 import dk.clanie.bitstamp.dto.BitstampTicker;
@@ -423,16 +424,16 @@ public class BitstampClient {
 	 * Requires authentication with API key and secret.
 	 * 
 	 * @param credentials the Bitstamp API credentials
-	 * @param currency the currency code (e.g., "btc", "usd", "eur")
+	 * @param currency the currency code
 	 * @return account balance data for the specified currency
 	 * @throws IllegalArgumentException if credentials is null
 	 */
-	public BitstampAccountBalance getAccountBalance(BitstampCredentials credentials, String currency) {
+	public BitstampAccountBalance getAccountBalance(BitstampCredentials credentials, BitstampCurrencyCode currency) {
 		if (credentials == null) {
 			throw new IllegalArgumentException("Credentials cannot be null");
 		}
 
-		String path = "/api/v2/account_balances/" + currency + "/";
+		String path = "/api/v2/account_balances/" + currency.name().toLowerCase() + "/";
 
 		BitstampAuthHelper.AuthHeaders authHeaders = BitstampAuthHelper.generateAuthHeaders(
 				credentials.getApiKey(),

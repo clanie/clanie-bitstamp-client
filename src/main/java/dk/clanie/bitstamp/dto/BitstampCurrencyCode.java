@@ -20,6 +20,8 @@ package dk.clanie.bitstamp.dto;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyType.CRYPTO;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyType.FIAT;
 
+import org.jspecify.annotations.Nullable;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -216,22 +218,22 @@ public enum BitstampCurrencyCode {
 
 	/**
 	 * Finds a currency code by its string representation.
+	 * <p>
+	 * This method handles case-insensitive conversion and special cases.
 	 *
 	 * @param code the currency code string
 	 * @return the currency code enum
 	 * @throws IllegalArgumentException if the code is not found
 	 */
-	public static BitstampCurrencyCode fromString(String code) {
-		if ("1INCH".equals(code)) {
-			return _1INCH;
-		}
-		if ("USD-PERP".equals(code)) {
-			return USD_PERP;
-		}
+	public static @Nullable BitstampCurrencyCode fromString(@Nullable String code) {
+		if (code == null) return null;
+		code = code.toUpperCase();
 		try {
 			return valueOf(code);
 		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Unknown currency code: " + code, e);
+			if ("1INCH".equals(code)) return _1INCH;
+			if ("USD-PERP".equals(code)) return USD_PERP;
+			throw new IllegalArgumentException("Unknown currency code: " + code);
 		}
 	}
 

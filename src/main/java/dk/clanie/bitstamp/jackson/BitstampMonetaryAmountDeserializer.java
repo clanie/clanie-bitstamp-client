@@ -47,7 +47,7 @@ public class BitstampMonetaryAmountDeserializer extends JsonDeserializer<Bitstam
 
 		try {
 			double amount = Double.parseDouble(parts[0]);
-			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.valueOf(parts[1]);
+			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.fromString(parts[1]);
 			return new BitstampMonetaryAmount(amount, currencyCode);
 		} catch (NumberFormatException e) {
 			throw new IOException("Invalid amount value: " + parts[0], e);

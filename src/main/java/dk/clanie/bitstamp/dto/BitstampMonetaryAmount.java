@@ -43,7 +43,7 @@ public class BitstampMonetaryAmount {
 
 
 	public BitstampMonetaryAmount(String amount, String currencyCode) {
-		this(Double.parseDouble(amount), BitstampCurrencyCode.valueOf(currencyCode));
+		this(Double.parseDouble(amount), BitstampCurrencyCode.fromString(currencyCode));
 	}
 
 

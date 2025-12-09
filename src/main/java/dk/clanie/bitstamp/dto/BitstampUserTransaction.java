@@ -126,7 +126,7 @@ public class BitstampUserTransaction {
 
 		// Try to match to a known currency code
 		try {
-			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.valueOf(key.toUpperCase());
+			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.fromString(key);
 			currencyAmounts.put(currencyCode, numericValue);
 		} catch (IllegalArgumentException e) {
 			log.debug("Ignoring unknown currency code or other property '{}' with value: {}", key, asString(value));

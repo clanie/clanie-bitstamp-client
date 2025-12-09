@@ -28,6 +28,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClient.RequestBodySpec;
 
+import dk.clanie.bitstamp.dto.BitstampAccountBalance;
 import dk.clanie.bitstamp.dto.BitstampCurrency;
 import dk.clanie.bitstamp.dto.BitstampOhlcData;
 import dk.clanie.bitstamp.dto.BitstampOrderBook;
@@ -374,6 +375,87 @@ public class BitstampClient {
 	 */
 	public List<BitstampUserTransaction> getUserTransactions(BitstampCredentials credentials, String currencyPair) {
 		return getUserTransactions(credentials, currencyPair, null, null, null, null, null, null);
+	}
+
+
+	/**
+	 * Gets account balances for all currencies (private API endpoint).
+	 * <p/>
+	 * Returns account balances for all currencies including available, reserved, and total amounts.
+	 * Requires authentication with API key and secret.
+	 * 
+	 * @param credentials the Bitstamp API credentials
+	 * @return list of account balance data for all currencies
+	 * @throws IllegalArgumentException if credentials is null
+	 */
+	public List<BitstampAccountBalance> getAccountBalances(BitstampCredentials credentials) {
+		if (credentials == null) {
+			throw new IllegalArgumentException("Credentials cannot be null");
+		}
+
+		String path = "/api/v2/account_balances/";
+
+		BitstampAuthHelper.AuthHeaders authHeaders = BitstampAuthHelper.generateAuthHeaders(
+				credentials.getApiKey(),
+				credentials.getApiSecret(),
+				"POST",
+				"www.bitstamp.net",
+				path,
+				"",
+				"",
+				""
+		);
+
+		return restClient.post()
+				.uri(path)
+				.header("X-Auth", authHeaders.getXAuth())
+				.header("X-Auth-Signature", authHeaders.getXAuthSignature())
+				.header("X-Auth-Nonce", authHeaders.getXAuthNonce())
+				.header("X-Auth-Timestamp", authHeaders.getXAuthTimestamp())
+				.header("X-Auth-Version", authHeaders.getXAuthVersion())
+				.retrieve()
+				.body(new ParameterizedTypeReference<List<BitstampAccountBalance>>() {});
+	}
+
+
+	/**
+	 * Gets account balance for a specific currency (private API endpoint).
+	 * <p/>
+	 * Returns account balance for the specified currency including available, reserved, and total amounts.
+	 * Requires authentication with API key and secret.
+	 * 
+	 * @param credentials the Bitstamp API credentials
+	 * @param currency the currency code (e.g., "btc", "usd", "eur")
+	 * @return account balance data for the specified currency
+	 * @throws IllegalArgumentException if credentials is null
+	 */
+	public BitstampAccountBalance getAccountBalance(BitstampCredentials credentials, String currency) {
+		if (credentials == null) {
+			throw new IllegalArgumentException("Credentials cannot be null");
+		}
+
+		String path = "/api/v2/account_balances/" + currency + "/";
+
+		BitstampAuthHelper.AuthHeaders authHeaders = BitstampAuthHelper.generateAuthHeaders(
+				credentials.getApiKey(),
+				credentials.getApiSecret(),
+				"POST",
+				"www.bitstamp.net",
+				path,
+				"",
+				"",
+				""
+		);
+
+		return restClient.post()
+				.uri(path)
+				.header("X-Auth", authHeaders.getXAuth())
+				.header("X-Auth-Signature", authHeaders.getXAuthSignature())
+				.header("X-Auth-Nonce", authHeaders.getXAuthNonce())
+				.header("X-Auth-Timestamp", authHeaders.getXAuthTimestamp())
+				.header("X-Auth-Version", authHeaders.getXAuthVersion())
+				.retrieve()
+				.body(BitstampAccountBalance.class);
 	}
 
 

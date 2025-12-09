@@ -57,10 +57,14 @@ public class BitstampClient {
 
 	private RestClient restClient;
 
+	private String hostname;
+
 
 	@PostConstruct
 	public void init() {
 		restClient = restClientFactory.newRestClient(baseUrl, wiretap);
+		// Extract hostname from baseUrl (remove protocol)
+		hostname = baseUrl.replaceAll("^https?://", "");
 	}
 
 
@@ -211,15 +215,9 @@ public class BitstampClient {
 					var builder = uriBuilder
 							.path("/api/v2/ohlc/{currencyPair}/")
 							.queryParam("step", step);
-					if (limit != null) {
-						builder.queryParam("limit", limit);
-					}
-					if (start != null) {
-						builder.queryParam("start", start);
-					}
-					if (end != null) {
-						builder.queryParam("end", end);
-					}
+					if (limit != null) builder.queryParam("limit", limit);
+					if (start != null) builder.queryParam("start", start);
+					if (end != null) builder.queryParam("end", end);
 					return builder.build(currencyPair);
 				})
 				.retrieve()
@@ -319,7 +317,7 @@ public class BitstampClient {
 				credentials.getApiKey(),
 				credentials.getApiSecret(),
 				"POST",
-				"www.bitstamp.net",
+				hostname,
 				path,
 				"",
 				hasQueryParams ? "application/x-www-form-urlencoded" : "",  // Empty content-type when body is empty
@@ -399,12 +397,12 @@ public class BitstampClient {
 				credentials.getApiKey(),
 				credentials.getApiSecret(),
 				"POST",
-				"www.bitstamp.net",
+				hostname,
 				path,
-				"",
-				"",
-				""
-		);
+				"", // queryParams
+				"", // contentType
+				""  // payload
+				);
 
 		return restClient.post()
 				.uri(path)
@@ -440,12 +438,12 @@ public class BitstampClient {
 				credentials.getApiKey(),
 				credentials.getApiSecret(),
 				"POST",
-				"www.bitstamp.net",
+				hostname,
 				path,
-				"",
-				"",
-				""
-		);
+				"", // queryParams
+				"", // contentType
+				""  // payload
+				);
 
 		return restClient.post()
 				.uri(path)

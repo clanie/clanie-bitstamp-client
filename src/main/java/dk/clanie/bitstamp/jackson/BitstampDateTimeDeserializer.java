@@ -25,9 +25,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.ValueDeserializer;
 
 /**
  * Custom deserializer for Bitstamp datetime strings.
@@ -35,13 +36,13 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
  * Parses datetime strings in the format "yyyy-MM-dd HH:mm:ss[.SSSSSS]" 
  * (microseconds are optional) and converts them to Instant.
  */
-public class BitstampDateTimeDeserializer extends JsonDeserializer<Instant> {
+public class BitstampDateTimeDeserializer extends ValueDeserializer<Instant> {
 
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]");
 
 
 	@Override
-	public Instant deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+	public Instant deserialize(JsonParser p, DeserializationContext ctxt) throws DatabindException {
 		String value = p.getText();
 		if (isEmpty(value)) return null;
 
@@ -49,7 +50,7 @@ public class BitstampDateTimeDeserializer extends JsonDeserializer<Instant> {
 			LocalDateTime dateTime = LocalDateTime.parse(value.trim(), FORMATTER);
 			return dateTime.toInstant(UTC);
 		} catch (Exception e) {
-			throw new IOException("Invalid datetime format: " + value + ". Expected format: 'yyyy-MM-dd HH:mm:ss[.SSSSSS]' (microseconds optional)", e);
+			throw DatabindException.from(p, "Invalid datetime format: " + value + ". Expected format: 'yyyy-MM-dd HH:mm:ss[.SSSSSS]' (microseconds optional)", e);
 		}
 	}
 

@@ -28,14 +28,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.ObjectMapper;
 
 class BitstampTickerListEntryTest {
 
 	@Test
-	void testJsonDeserializationSpotMarket() throws JsonMappingException, JsonProcessingException {
+	void testJsonDeserializationSpotMarket() throws DatabindException, JacksonException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		BitstampTickerListEntry ticker = objectMapper.readValue("""
 				{
@@ -82,7 +82,7 @@ class BitstampTickerListEntryTest {
 	}
 
 	@Test
-	void testJsonDeserializationWithEmptyPercentChange() throws JsonMappingException, JsonProcessingException {
+	void testJsonDeserializationWithEmptyPercentChange() throws DatabindException, JacksonException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		BitstampTickerListEntry ticker = objectMapper.readValue("""
 				{
@@ -116,7 +116,7 @@ class BitstampTickerListEntryTest {
 	}
 
 	@Test
-	void testJsonDeserializationPerpetualMarket() throws JsonMappingException, JsonProcessingException {
+	void testJsonDeserializationPerpetualMarket() throws DatabindException, JacksonException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		BitstampTickerListEntry ticker = objectMapper.readValue("""
 				{

@@ -17,11 +17,10 @@
  */
 package dk.clanie.bitstamp.jackson;
 
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.ValueDeserializer;
 
 import dk.clanie.bitstamp.dto.BitstampCurrencyCode;
 import dk.clanie.bitstamp.dto.BitstampMonetaryAmount;
@@ -31,10 +30,10 @@ import dk.clanie.bitstamp.dto.BitstampMonetaryAmount;
  * <p/>
  * Parses strings in the format "amount currency" (e.g., "10 USD", "0.0001 BTC").
  */
-public class BitstampMonetaryAmountDeserializer extends JsonDeserializer<BitstampMonetaryAmount> {
+public class BitstampMonetaryAmountDeserializer extends ValueDeserializer<BitstampMonetaryAmount> {
 
 	@Override
-	public BitstampMonetaryAmount deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+	public BitstampMonetaryAmount deserialize(JsonParser p, DeserializationContext ctxt) throws DatabindException {
 		String value = p.getText();
 		if (value == null || value.trim().isEmpty()) {
 			return null;
@@ -42,7 +41,7 @@ public class BitstampMonetaryAmountDeserializer extends JsonDeserializer<Bitstam
 
 		String[] parts = value.trim().split("\\s+");
 		if (parts.length != 2) {
-			throw new IOException("Invalid monetary amount format: " + value + ". Expected format: 'amount currency'");
+			throw DatabindException.from(p, "Invalid monetary amount format: " + value + ". Expected format: 'amount currency'");
 		}
 
 		try {
@@ -50,9 +49,9 @@ public class BitstampMonetaryAmountDeserializer extends JsonDeserializer<Bitstam
 			BitstampCurrencyCode currencyCode = BitstampCurrencyCode.fromString(parts[1]);
 			return new BitstampMonetaryAmount(amount, currencyCode);
 		} catch (NumberFormatException e) {
-			throw new IOException("Invalid amount value: " + parts[0], e);
+			throw DatabindException.from(p, "Invalid amount value: " + parts[0], e);
 		} catch (IllegalArgumentException e) {
-			throw new IOException("Invalid currency code: " + parts[1], e);
+			throw DatabindException.from(p, "Invalid currency code: " + parts[1], e);
 		}
 	}
 

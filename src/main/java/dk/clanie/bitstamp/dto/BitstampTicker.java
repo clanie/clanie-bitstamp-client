@@ -19,7 +19,7 @@ package dk.clanie.bitstamp.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import dk.clanie.core.json.EmptyStringToNullDoubleDeserializer;
 import lombok.Value;

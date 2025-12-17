@@ -17,7 +17,7 @@
  */
 package dk.clanie.bitstamp.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import dk.clanie.bitstamp.jackson.BitstampMonetaryAmountDeserializer;
 import lombok.Value;

@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 class BitstampCurrencyPairTest {
 
@@ -116,7 +116,7 @@ class BitstampCurrencyPairTest {
 	}
 
 	@Test
-	void testJsonSerialization() throws JsonProcessingException {
+	void testJsonSerialization() throws JacksonException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		BitstampCurrencyPair pair = new BitstampCurrencyPair(BTC, USD);
 		
@@ -126,7 +126,7 @@ class BitstampCurrencyPairTest {
 	}
 
 	@Test
-	void testJsonDeserialization() throws JsonProcessingException {
+	void testJsonDeserialization() throws JacksonException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		BitstampCurrencyPair pair = objectMapper.readValue("\"BTC/USD\"", BitstampCurrencyPair.class);

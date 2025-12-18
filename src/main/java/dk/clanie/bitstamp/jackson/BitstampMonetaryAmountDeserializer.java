@@ -17,13 +17,14 @@
  */
 package dk.clanie.bitstamp.jackson;
 
-import tools.jackson.core.JsonParser;
-import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.DatabindException;
-import tools.jackson.databind.ValueDeserializer;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import dk.clanie.bitstamp.dto.BitstampCurrencyCode;
 import dk.clanie.bitstamp.dto.BitstampMonetaryAmount;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
 
 /**
  * Custom deserializer for BitstampMonetaryAmount.
@@ -34,8 +35,8 @@ public class BitstampMonetaryAmountDeserializer extends ValueDeserializer<Bitsta
 
 	@Override
 	public BitstampMonetaryAmount deserialize(JsonParser p, DeserializationContext ctxt) throws DatabindException {
-		String value = p.getText();
-		if (value == null || value.trim().isEmpty()) {
+		String value = p.getString();
+		if (isBlank(value)) {
 			return null;
 		}
 

@@ -20,14 +20,13 @@ package dk.clanie.bitstamp.jackson;
 import static java.time.ZoneOffset.UTC;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import tools.jackson.core.JsonParser;
-import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.ValueDeserializer;
 
 /**
@@ -43,7 +42,7 @@ public class BitstampDateTimeDeserializer extends ValueDeserializer<Instant> {
 
 	@Override
 	public Instant deserialize(JsonParser p, DeserializationContext ctxt) throws DatabindException {
-		String value = p.getText();
+		String value = p.getString();
 		if (isEmpty(value)) return null;
 
 		try {

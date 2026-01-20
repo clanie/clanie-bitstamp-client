@@ -144,6 +144,7 @@ public enum BitstampCurrencyCode {
 	XCN("Chain", "Onyxcoin (formerly Chain)", CRYPTO),
 	BNB("Binance Coin", "Binance Coin", CRYPTO),
 	ASTER("Astar", "Astar Network", CRYPTO),
+	AVNT("Aventus", "Aventus", CRYPTO),
 
 	// Solana ecosystem
 	JUP("Jupiter", "Jupiter", CRYPTO),

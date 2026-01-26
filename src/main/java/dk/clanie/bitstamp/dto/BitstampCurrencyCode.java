@@ -66,6 +66,7 @@ public enum BitstampCurrencyCode {
 	BCH("Bitcoin Cash", "Bitcoin Cash", CRYPTO),
 	SOL("Solana", "Solana", CRYPTO),
 	ADA("Cardano", "Cardano", CRYPTO),
+	ATOM("Cosmos", "Cosmos", CRYPTO),
 	DOGE("Dogecoin", "Dogecoin", CRYPTO),
 	DOT("Polkadot", "Polkadot", CRYPTO),
 	AVAX("Avalanche", "Avalanche", CRYPTO),
@@ -78,6 +79,7 @@ public enum BitstampCurrencyCode {
 
 	// DeFi tokens
 	AAVE("Aave", "Aave", CRYPTO),
+	CAKE("PancakeSwap", "PancakeSwap", CRYPTO),
 	UNI("Uniswap", "Uniswap", CRYPTO),
 	LINK("Chainlink", "Chainlink", CRYPTO),
 	CRV("Curve", "Curve DAO Token", CRYPTO),
@@ -95,6 +97,7 @@ public enum BitstampCurrencyCode {
 	OP("Optimism", "Optimism", CRYPTO),
 	MATIC("Matic", "Matic)", CRYPTO),
 	POL("Polygon", "Polygon (formerly MATIC)", CRYPTO),
+	S("Sonic", "Sonic", CRYPTO),
 	STRK("Starknet", "Starknet", CRYPTO),
 
 	// Meme coins
@@ -107,6 +110,7 @@ public enum BitstampCurrencyCode {
 	MEW("Cat in a Dogs World", "Cat in a Dogs World", CRYPTO),
 	POPCAT("Popcat", "Popcat", CRYPTO),
 	PNUT("Peanut the Squirrel", "Peanut the Squirrel", CRYPTO),
+	TURBO("Turbo", "Turbo", CRYPTO),
 	WEN("Wen", "Wen", CRYPTO),
 	MOG("Mog Coin", "Mog Coin", CRYPTO),
 	FARTCOIN("Fartcoin", "Fartcoin", CRYPTO),
@@ -114,6 +118,7 @@ public enum BitstampCurrencyCode {
 	MOODENG("Moo Deng", "Moo Deng", CRYPTO),
 
 	// Political & Celebrity tokens
+	FIGHT("Fight", "Fight", CRYPTO),
 	TRUMP("TRUMP", "TRUMP Meme Token", CRYPTO),
 	MELANIA("MELANIA", "MELANIA Meme Token", CRYPTO),
 
@@ -125,11 +130,13 @@ public enum BitstampCurrencyCode {
 	ENJ("Enjin Coin", "Enjin Coin", CRYPTO),
 	IMX("Immutable X", "Immutable X", CRYPTO),
 	APE("ApeCoin", "ApeCoin", CRYPTO),
+	APT("Aptos", "Aptos", CRYPTO),
 
 	// AI & Oracle tokens
 	FET("Fetch.ai", "Fetch.ai", CRYPTO),
 	RNDR("Render Token", "Render Token", CRYPTO),
 	GRT("The Graph", "The Graph", CRYPTO),
+	TAO("Bittensor", "Bittensor", CRYPTO),
 	VIRTUAL("Virtual Protocol", "Virtual Protocol", CRYPTO),
 	TAI("TAI", "TAI", CRYPTO),
 
@@ -179,7 +186,10 @@ public enum BitstampCurrencyCode {
 	PERP("Perpetual Protocol", "Perpetual Protocol", CRYPTO),
 	CTSI("Cartesi", "Cartesi", CRYPTO),
 	BLUR("Blur", "Blur", CRYPTO),
+	LIT("Lighter", "Lighter", CRYPTO),
 	LMWR("LimeWire", "LimeWire Token", CRYPTO),
+	MON("Monad", "Monad", CRYPTO),
+	PENDLE("Pendle", "Pendle", CRYPTO),
 	RGT("Rari Governance Token", "Rari Governance Token", CRYPTO),
 	SGB("Songbird", "Songbird", CRYPTO),
 	VEGA("Vega Protocol", "Vega Protocol", CRYPTO),
@@ -195,6 +205,7 @@ public enum BitstampCurrencyCode {
 	TRUF("Truefi", "Truefi", CRYPTO),
 	SMT("SmartMesh", "SmartMesh", CRYPTO),
 	ZETA("ZetaChain", "ZetaChain", CRYPTO),
+	ZORA("Zora", "Zora", CRYPTO),
 	WLFI("WLFI", "WLFI", CRYPTO),
 
 	// Wrapped tokens

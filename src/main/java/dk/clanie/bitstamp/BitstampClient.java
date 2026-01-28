@@ -21,7 +21,9 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -38,6 +40,8 @@ import dk.clanie.bitstamp.dto.BitstampTickerListEntry;
 import dk.clanie.bitstamp.dto.BitstampTradingPair;
 import dk.clanie.bitstamp.dto.BitstampTransaction;
 import dk.clanie.bitstamp.dto.BitstampUserTransaction;
+import dk.clanie.bitstamp.exception.UnknownCurrencyCodeException;
+import dk.clanie.bitstamp.jackson.BitstampCurrencyPairDeserializer;
 import dk.clanie.core.util.SortDirection;
 import dk.clanie.web.RestClientFactory;
 import jakarta.annotation.PostConstruct;
@@ -90,12 +94,28 @@ public class BitstampClient {
 	 * Returns ticker data for all available currency pairs.
 	 * 
 	 * @return list of ticker data for all pairs
+	 * @throws UnknownCurrencyCodeException if the response contains unknown currency codes
 	 */
 	public List<BitstampTickerListEntry> listTickers() {
-		return restClient.get()
-				.uri("/api/v2/ticker/")
-				.retrieve()
-				.body(new ParameterizedTypeReference<List<BitstampTickerListEntry>>() {});
+		BitstampCurrencyPairDeserializer.clearUnknownCurrencyCodes();
+		try {
+			List<BitstampTickerListEntry> result = restClient.get()
+					.uri("/api/v2/ticker/")
+					.retrieve()
+					.body(new ParameterizedTypeReference<List<BitstampTickerListEntry>>() {});
+
+			// Check if any unknown currency codes were encountered during deserialization
+			Set<String> unknownCodes = BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes();
+			if (!unknownCodes.isEmpty()) {
+				List<String> sortedUnknownCodes = new ArrayList<>(unknownCodes);
+				sortedUnknownCodes.sort(String::compareTo);
+				throw new UnknownCurrencyCodeException(sortedUnknownCodes);
+			}
+
+			return result;
+		} finally {
+			BitstampCurrencyPairDeserializer.clearUnknownCurrencyCodes();
+		}
 	}
 
 

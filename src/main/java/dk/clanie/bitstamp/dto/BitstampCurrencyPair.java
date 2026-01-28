@@ -19,7 +19,9 @@ package dk.clanie.bitstamp.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
+import dk.clanie.bitstamp.jackson.BitstampCurrencyPairDeserializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -35,6 +37,7 @@ import lombok.Getter;
  */
 @Getter
 @EqualsAndHashCode
+@JsonDeserialize(using = BitstampCurrencyPairDeserializer.class)
 public class BitstampCurrencyPair {
 
 	private final BitstampCurrencyCode baseCurrency;

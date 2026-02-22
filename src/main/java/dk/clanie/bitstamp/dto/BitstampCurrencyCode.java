@@ -74,6 +74,7 @@ public enum BitstampCurrencyCode {
 	ICP("Internet Computer", "Internet Computer", CRYPTO),
 	SUI("Sui", "Sui", CRYPTO),
 	TON("Toncoin", "The Open Network", CRYPTO),
+	TRX("Tron", "Tron", CRYPTO),
 	ETC("Ethereum Classic", "Ethereum Classic", CRYPTO),
 	EGLD("Elrond", "Elrond (MultiversX)", CRYPTO),
 

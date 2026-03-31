@@ -209,6 +209,12 @@ public enum BitstampCurrencyCode {
 	ZORA("Zora", "Zora", CRYPTO),
 	WLFI("WLFI", "WLFI", CRYPTO),
 
+	// Tokens aligned with Bitstamp listings
+	AERO("Aerodrome Finance", "Aerodrome Finance token", CRYPTO),
+	MNT("Mantle", "Mantle (Layer-2) token", CRYPTO),
+	PAXG("PAX Gold", "Paxos Gold — gold-backed token", CRYPTO),
+	XTZ("Tezos", "Tezos", CRYPTO),
+
 	// Wrapped tokens
 	WBTC("Wrapped Bitcoin", "Wrapped Bitcoin", CRYPTO),
 

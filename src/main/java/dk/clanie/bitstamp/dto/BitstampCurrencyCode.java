@@ -46,6 +46,7 @@ public enum BitstampCurrencyCode {
 	EURCV("Euro Coin V", "Euro Coin V", CRYPTO),
 	GUSD("Gemini Dollar", "Gemini Dollar Stablecoin", CRYPTO),
 	GYEN("GYEN", "GMO JPY Stablecoin", CRYPTO),
+	PAXG("PAX Gold", "Paxos Gold — gold-backed token", CRYPTO),
 	PYUSD("PayPal USD", "PayPal USD Stablecoin", CRYPTO),
 	RLUSD("Ripple USD", "Ripple USD Stablecoin", CRYPTO),
 	USDC("USD Coin", "USD Coin Stablecoin", CRYPTO),
@@ -77,9 +78,11 @@ public enum BitstampCurrencyCode {
 	TRX("Tron", "Tron", CRYPTO),
 	ETC("Ethereum Classic", "Ethereum Classic", CRYPTO),
 	EGLD("Elrond", "Elrond (MultiversX)", CRYPTO),
+	XTZ("Tezos", "Tezos", CRYPTO),
 
 	// DeFi tokens
 	AAVE("Aave", "Aave", CRYPTO),
+	AERO("Aerodrome Finance", "Aerodrome Finance token", CRYPTO),
 	CAKE("PancakeSwap", "PancakeSwap", CRYPTO),
 	UNI("Uniswap", "Uniswap", CRYPTO),
 	LINK("Chainlink", "Chainlink", CRYPTO),
@@ -92,6 +95,15 @@ public enum BitstampCurrencyCode {
 	LDO("Lido DAO", "Lido DAO", CRYPTO),
 	ONDO("Ondo Finance", "Ondo Finance", CRYPTO),
 	ENA("Ethena", "Ethena", CRYPTO),
+	EIGEN("EigenLayer", "EigenLayer", CRYPTO),
+	PERP("Perpetual Protocol", "Perpetual Protocol", CRYPTO),
+	PENDLE("Pendle", "Pendle", CRYPTO),
+	RGT("Rari Governance Token", "Rari Governance Token", CRYPTO),
+	SPK("Spark", "Spark", CRYPTO),
+	SYRUP("Syrup", "Syrup", CRYPTO),
+	CTX("Cryptex Finance", "Cryptex Finance", CRYPTO),
+	TRUF("Truefi", "Truefi", CRYPTO),
+	VEGA("Vega Protocol", "Vega Protocol", CRYPTO),
 
 	// Layer 2 & Scaling
 	ARB("Arbitrum", "Arbitrum", CRYPTO),
@@ -100,6 +112,10 @@ public enum BitstampCurrencyCode {
 	POL("Polygon", "Polygon (formerly MATIC)", CRYPTO),
 	S("Sonic", "Sonic", CRYPTO),
 	STRK("Starknet", "Starknet", CRYPTO),
+	MNT("Mantle", "Mantle (Layer-2) token", CRYPTO),
+	BOBA("Boba Network", "Boba Network", CRYPTO),
+	CTSI("Cartesi", "Cartesi", CRYPTO),
+	SKL("SKALE", "SKALE Network", CRYPTO),
 
 	// Meme coins
 	SHIB("Shiba Inu", "Shiba Inu", CRYPTO),
@@ -122,6 +138,7 @@ public enum BitstampCurrencyCode {
 	FIGHT("Fight", "Fight", CRYPTO),
 	TRUMP("TRUMP", "TRUMP Meme Token", CRYPTO),
 	MELANIA("MELANIA", "MELANIA Meme Token", CRYPTO),
+	WLFI("WLFI", "WLFI", CRYPTO),
 
 	// Gaming & Metaverse
 	AXS("Axie Infinity", "Axie Infinity", CRYPTO),
@@ -153,6 +170,14 @@ public enum BitstampCurrencyCode {
 	BNB("Binance Coin", "Binance Coin", CRYPTO),
 	ASTER("Astar", "Astar Network", CRYPTO),
 	AVNT("Aventus", "Aventus", CRYPTO),
+	FLR("Flare", "Flare Network", CRYPTO),
+	MON("Monad", "Monad", CRYPTO),
+	QNT("Quant", "Quant", CRYPTO),
+	SGB("Songbird", "Songbird", CRYPTO),
+	STORJ("Storj", "Storj", CRYPTO),
+	TRAC("OriginTrail", "OriginTrail", CRYPTO),
+	ZETA("ZetaChain", "ZetaChain", CRYPTO),
+	ZRO("LayerZero", "LayerZero", CRYPTO),
 
 	// Solana ecosystem
 	JUP("Jupiter", "Jupiter", CRYPTO),
@@ -180,47 +205,18 @@ public enum BitstampCurrencyCode {
 	// Other tokens
 	AMP("Amp", "Amp", CRYPTO),
 	AUDIO("Audius", "Audius", CRYPTO),
-	BOBA("Boba Network", "Boba Network", CRYPTO),
-	SKL("SKALE", "SKALE Network", CRYPTO),
-	FLR("Flare", "Flare Network", CRYPTO),
-	STORJ("Storj", "Storj", CRYPTO),
-	PERP("Perpetual Protocol", "Perpetual Protocol", CRYPTO),
-	CTSI("Cartesi", "Cartesi", CRYPTO),
 	BLUR("Blur", "Blur", CRYPTO),
+	CHIP("Chip", "Chip", CRYPTO),
 	LIT("Lighter", "Lighter", CRYPTO),
 	LMWR("LimeWire", "LimeWire Token", CRYPTO),
-	MON("Monad", "Monad", CRYPTO),
-	PENDLE("Pendle", "Pendle", CRYPTO),
-	RGT("Rari Governance Token", "Rari Governance Token", CRYPTO),
-	SGB("Songbird", "Songbird", CRYPTO),
-	VEGA("Vega Protocol", "Vega Protocol", CRYPTO),
+	SKR("Skrumble", "Skrumble", CRYPTO),
 	WECAN("WeCan", "WeCan", CRYPTO),
-	TRAC("OriginTrail", "OriginTrail", CRYPTO),
-	SYRUP("Syrup", "Syrup", CRYPTO),
-	CTX("Cryptex Finance", "Cryptex Finance", CRYPTO),
+	BIO("BIO Protocol", "BIO Protocol", CRYPTO),
 	CXT("CXT", "CXT", CRYPTO),
+	SMT("SmartMesh", "SmartMesh", CRYPTO),
 	XCHNG("XCHNG", "XCHNG", CRYPTO),
 	XPL("XPL", "XPL", CRYPTO),
-	BIO("BIO Protocol", "BIO Protocol", CRYPTO),
-	SPK("Spark", "Spark", CRYPTO),
-	TRUF("Truefi", "Truefi", CRYPTO),
-	SMT("SmartMesh", "SmartMesh", CRYPTO),
-	ZETA("ZetaChain", "ZetaChain", CRYPTO),
 	ZORA("Zora", "Zora", CRYPTO),
-	WLFI("WLFI", "WLFI", CRYPTO),
-
-	// Tokens aligned with Bitstamp listings
-	AERO("Aerodrome Finance", "Aerodrome Finance token", CRYPTO),
-	MNT("Mantle", "Mantle (Layer-2) token", CRYPTO),
-	PAXG("PAX Gold", "Paxos Gold — gold-backed token", CRYPTO),
-	XTZ("Tezos", "Tezos", CRYPTO),
-
-	// Recent Bitstamp listings
-	CHIP("Chip", "Chip", CRYPTO),
-	EIGEN("EigenLayer", "EigenLayer", CRYPTO),
-	QNT("Quant", "Quant", CRYPTO),
-	SKR("Skrumble", "Skrumble", CRYPTO),
-	ZRO("LayerZero", "LayerZero", CRYPTO),
 
 	// Wrapped tokens
 	WBTC("Wrapped Bitcoin", "Wrapped Bitcoin", CRYPTO),

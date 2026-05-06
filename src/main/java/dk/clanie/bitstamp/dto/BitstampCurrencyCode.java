@@ -215,6 +215,13 @@ public enum BitstampCurrencyCode {
 	PAXG("PAX Gold", "Paxos Gold — gold-backed token", CRYPTO),
 	XTZ("Tezos", "Tezos", CRYPTO),
 
+	// Recent Bitstamp listings
+	CHIP("Chip", "Chip", CRYPTO),
+	EIGEN("EigenLayer", "EigenLayer", CRYPTO),
+	QNT("Quant", "Quant", CRYPTO),
+	SKR("Skrumble", "Skrumble", CRYPTO),
+	ZRO("LayerZero", "LayerZero", CRYPTO),
+
 	// Wrapped tokens
 	WBTC("Wrapped Bitcoin", "Wrapped Bitcoin", CRYPTO),
 

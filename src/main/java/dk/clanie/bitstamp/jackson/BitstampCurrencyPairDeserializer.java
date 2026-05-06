@@ -85,13 +85,10 @@ public class BitstampCurrencyPairDeserializer extends ValueDeserializer<Bitstamp
 			unknownCurrencyCodes.get().add(parts[1].toUpperCase());
 		}
 
-		// If either currency is unknown, we can't create a valid pair
-		// But we continue to collect all unknown codes
+		// If either currency is unknown, return null so the caller can skip the
+		// containing entry. The unknown code(s) have been recorded above.
 		if (base == null || quote == null) {
-			// Return a dummy pair - we'll throw exception later with all unknown codes
-			// Using first available codes as fallback
-			if (base == null) base = BitstampCurrencyCode.USD;
-			if (quote == null) quote = BitstampCurrencyCode.USD;
+			return null;
 		}
 
 		return new BitstampCurrencyPair(base, quote);

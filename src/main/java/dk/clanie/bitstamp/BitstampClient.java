@@ -40,7 +40,6 @@ import dk.clanie.bitstamp.dto.BitstampTickerListEntry;
 import dk.clanie.bitstamp.dto.BitstampTradingPair;
 import dk.clanie.bitstamp.dto.BitstampTransaction;
 import dk.clanie.bitstamp.dto.BitstampUserTransaction;
-import dk.clanie.bitstamp.exception.UnknownCurrencyCodeException;
 import dk.clanie.bitstamp.jackson.BitstampCurrencyPairDeserializer;
 import dk.clanie.core.util.SortDirection;
 import dk.clanie.web.RestClientFactory;
@@ -91,10 +90,12 @@ public class BitstampClient {
 	/**
 	 * Gets ticker data for all currency pairs.
 	 * <p/>
-	 * Returns ticker data for all available currency pairs.
-	 * 
-	 * @return list of ticker data for all pairs
-	 * @throws UnknownCurrencyCodeException if the response contains unknown currency codes
+	 * Returns ticker data for all available currency pairs. Entries whose pair
+	 * references a currency code not in {@link BitstampCurrencyCode} are skipped
+	 * and the unknown codes are logged at WARN level so they can be added to the
+	 * enum.
+	 *
+	 * @return list of ticker data for all pairs with known currency codes
 	 */
 	public List<BitstampTickerListEntry> listTickers() {
 		BitstampCurrencyPairDeserializer.clearUnknownCurrencyCodes();
@@ -104,15 +105,19 @@ public class BitstampClient {
 					.retrieve()
 					.body(new ParameterizedTypeReference<List<BitstampTickerListEntry>>() {});
 
-			// Check if any unknown currency codes were encountered during deserialization
 			Set<String> unknownCodes = BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes();
 			if (!unknownCodes.isEmpty()) {
 				List<String> sortedUnknownCodes = new ArrayList<>(unknownCodes);
 				sortedUnknownCodes.sort(String::compareTo);
-				throw new UnknownCurrencyCodeException(sortedUnknownCodes);
+				log.warn("Skipping Bitstamp tickers with unknown currency code(s): {}. "
+						+ "Add the code(s) to BitstampCurrencyCode to include these tickers.",
+						sortedUnknownCodes);
 			}
 
-			return result;
+			// Filter out entries whose pair could not be resolved (unknown currency code)
+			return result.stream()
+					.filter(entry -> entry.getPair() != null)
+					.toList();
 		} finally {
 			BitstampCurrencyPairDeserializer.clearUnknownCurrencyCodes();
 		}

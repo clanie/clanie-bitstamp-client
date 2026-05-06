@@ -53,10 +53,10 @@ class BitstampCurrencyPairDeserializerTest {
 	@Test
 	void testDeserializeWithUnknownBaseCurrency() throws Exception {
 		BitstampCurrencyPair pair = objectMapper.readValue("\"UNKNOWN1/USD\"", BitstampCurrencyPair.class);
-		
-		// Deserializer should continue with dummy values
-		assertThat(pair).isNotNull();
-		
+
+		// Deserializer returns null when a currency code is unknown so the caller can skip the entry
+		assertThat(pair).isNull();
+
 		// But unknown code should be collected
 		Set<String> unknownCodes = BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes();
 		assertThat(unknownCodes).containsExactly("UNKNOWN1");
@@ -66,9 +66,9 @@ class BitstampCurrencyPairDeserializerTest {
 	@Test
 	void testDeserializeWithUnknownQuoteCurrency() throws Exception {
 		BitstampCurrencyPair pair = objectMapper.readValue("\"BTC/UNKNOWN2\"", BitstampCurrencyPair.class);
-		
-		assertThat(pair).isNotNull();
-		
+
+		assertThat(pair).isNull();
+
 		Set<String> unknownCodes = BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes();
 		assertThat(unknownCodes).containsExactly("UNKNOWN2");
 	}
@@ -77,9 +77,9 @@ class BitstampCurrencyPairDeserializerTest {
 	@Test
 	void testDeserializeWithBothUnknown() throws Exception {
 		BitstampCurrencyPair pair = objectMapper.readValue("\"UNKNOWN1/UNKNOWN2\"", BitstampCurrencyPair.class);
-		
-		assertThat(pair).isNotNull();
-		
+
+		assertThat(pair).isNull();
+
 		Set<String> unknownCodes = BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes();
 		assertThat(unknownCodes).containsExactlyInAnyOrder("UNKNOWN1", "UNKNOWN2");
 	}

@@ -112,6 +112,7 @@ public enum BitstampCurrencyCode {
 	POL("Polygon", "Polygon (formerly MATIC)", CRYPTO),
 	S("Sonic", "Sonic", CRYPTO),
 	STRK("Starknet", "Starknet", CRYPTO),
+	MEGA("MegaEth", "MegaEth Layer-2 token", CRYPTO),
 	MNT("Mantle", "Mantle (Layer-2) token", CRYPTO),
 	BOBA("Boba Network", "Boba Network", CRYPTO),
 	CTSI("Cartesi", "Cartesi", CRYPTO),

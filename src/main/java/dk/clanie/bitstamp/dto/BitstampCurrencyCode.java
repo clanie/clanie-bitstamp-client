@@ -79,6 +79,7 @@ public enum BitstampCurrencyCode {
 	ETC("Ethereum Classic", "Ethereum Classic", CRYPTO),
 	EGLD("Elrond", "Elrond (MultiversX)", CRYPTO),
 	XTZ("Tezos", "Tezos", CRYPTO),
+	ZEC("Zcash", "Zcash", CRYPTO),
 
 	// DeFi tokens
 	AAVE("Aave", "Aave", CRYPTO),

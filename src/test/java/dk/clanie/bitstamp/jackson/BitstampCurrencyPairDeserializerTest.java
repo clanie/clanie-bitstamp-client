@@ -18,6 +18,7 @@
 package dk.clanie.bitstamp.jackson;
 
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.BTC;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.ORCA;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,6 +46,17 @@ class BitstampCurrencyPairDeserializerTest {
 		BitstampCurrencyPair pair = objectMapper.readValue("\"BTC/USD\"", BitstampCurrencyPair.class);
 		
 		assertThat(pair.getBaseCurrency()).isEqualTo(BTC);
+		assertThat(pair.getQuoteCurrency()).isEqualTo(USD);
+		assertThat(BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes()).isEmpty();
+	}
+
+
+	@Test
+	void testDeserializeValidPairWithNewCurrencyCode() throws Exception {
+		BitstampCurrencyPair pair = objectMapper.readValue("\"ORCA/USD\"", BitstampCurrencyPair.class);
+
+		assertThat(pair).isNotNull();
+		assertThat(pair.getBaseCurrency()).isEqualTo(ORCA);
 		assertThat(pair.getQuoteCurrency()).isEqualTo(USD);
 		assertThat(BitstampCurrencyPairDeserializer.getUnknownCurrencyCodes()).isEmpty();
 	}

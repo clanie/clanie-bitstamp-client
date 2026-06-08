@@ -30,6 +30,7 @@ import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.MELANIA;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.OP;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.PEPE;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.POL;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.RAY;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.SGD;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.SHIB;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.TRUMP;
@@ -38,7 +39,10 @@ import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USDC;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USDT;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD_PERP;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.VVV;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.W;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.XRP;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.ZK;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode._1INCH;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyType.CRYPTO;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyType.FIAT;
@@ -85,6 +89,11 @@ class BitstampCurrencyCodeTest {
 		assertThat(BitstampCurrencyCode.fromString("USD")).isEqualTo(USD);
 		assertThat(BitstampCurrencyCode.fromString("1INCH")).isEqualTo(_1INCH);
 		assertThat(BitstampCurrencyCode.fromString("USD-PERP")).isEqualTo(USD_PERP);
+		assertThat(BitstampCurrencyCode.fromString("ORCA")).isEqualTo(BitstampCurrencyCode.ORCA);
+		assertThat(BitstampCurrencyCode.fromString("RAY")).isEqualTo(RAY);
+		assertThat(BitstampCurrencyCode.fromString("VVV")).isEqualTo(VVV);
+		assertThat(BitstampCurrencyCode.fromString("W")).isEqualTo(W);
+		assertThat(BitstampCurrencyCode.fromString("ZK")).isEqualTo(ZK);
 	}
 
 	@Test
@@ -132,6 +141,15 @@ class BitstampCurrencyCodeTest {
 		assertThat(ARB.getCurrencyType()).isEqualTo(CRYPTO);
 		assertThat(OP.getCurrencyType()).isEqualTo(CRYPTO);
 		assertThat(POL.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(ZK.getCurrencyType()).isEqualTo(CRYPTO);
+	}
+
+	@Test
+	void testNewTokenCoverage() {
+		assertThat(BitstampCurrencyCode.ORCA.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(RAY.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(VVV.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(W.getCurrencyType()).isEqualTo(CRYPTO);
 	}
 
 }

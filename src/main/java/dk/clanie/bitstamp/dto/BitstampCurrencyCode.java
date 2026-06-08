@@ -113,6 +113,7 @@ public enum BitstampCurrencyCode {
 	POL("Polygon", "Polygon (formerly MATIC)", CRYPTO),
 	S("Sonic", "Sonic", CRYPTO),
 	STRK("Starknet", "Starknet", CRYPTO),
+	ZK("ZKsync", "ZKsync", CRYPTO),
 	MEGA("MegaEth", "MegaEth Layer-2 token", CRYPTO),
 	MNT("Mantle", "Mantle (Layer-2) token", CRYPTO),
 	BOBA("Boba Network", "Boba Network", CRYPTO),
@@ -158,6 +159,7 @@ public enum BitstampCurrencyCode {
 	GRT("The Graph", "The Graph", CRYPTO),
 	TAO("Bittensor", "Bittensor", CRYPTO),
 	VIRTUAL("Virtual Protocol", "Virtual Protocol", CRYPTO),
+	VVV("Venice Token", "Venice Token", CRYPTO),
 	TAI("TAI", "TAI", CRYPTO),
 
 	// Infrastructure & Utility
@@ -178,12 +180,15 @@ public enum BitstampCurrencyCode {
 	SGB("Songbird", "Songbird", CRYPTO),
 	STORJ("Storj", "Storj", CRYPTO),
 	TRAC("OriginTrail", "OriginTrail", CRYPTO),
+	W("Wormhole", "Wormhole", CRYPTO),
 	ZETA("ZetaChain", "ZetaChain", CRYPTO),
 	ZRO("LayerZero", "LayerZero", CRYPTO),
 
 	// Solana ecosystem
 	JUP("Jupiter", "Jupiter", CRYPTO),
+	ORCA("Orca", "Orca", CRYPTO),
 	PYTH("Pyth Network", "Pyth Network", CRYPTO),
+	RAY("Raydium", "Raydium", CRYPTO),
 
 	// Exchange & Governance tokens
 	UMA("UMA", "UMA", CRYPTO),

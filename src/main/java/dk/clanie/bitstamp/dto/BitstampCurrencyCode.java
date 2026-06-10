@@ -57,6 +57,11 @@ public enum BitstampCurrencyCode {
 	XSGD("XSGD", "Xfers Singapore Dollar Stablecoin", CRYPTO),
 	ZUSD("ZUSD", "ZUSD Stablecoin", CRYPTO),
 
+	// Tokenized assets
+	GOLD("Gold", "Tokenized gold", CRYPTO),
+	QQQ("QQQ", "Tokenized NASDAQ-100 ETF exposure", CRYPTO),
+	SILVER("Silver", "Tokenized silver", CRYPTO),
+
 	// Major cryptocurrencies
 	BTC("Bitcoin", "Bitcoin", CRYPTO),
 	ETH("Ethereum", "Ethereum", CRYPTO),

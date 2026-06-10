@@ -25,14 +25,17 @@ import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.DOGE;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.ETH;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.EUR;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.GBP;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.GOLD;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.LINK;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.MELANIA;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.OP;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.PEPE;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.POL;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.QQQ;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.RAY;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.SGD;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.SHIB;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.SILVER;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.TRUMP;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.UNI;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD;
@@ -94,6 +97,9 @@ class BitstampCurrencyCodeTest {
 		assertThat(BitstampCurrencyCode.fromString("VVV")).isEqualTo(VVV);
 		assertThat(BitstampCurrencyCode.fromString("W")).isEqualTo(W);
 		assertThat(BitstampCurrencyCode.fromString("ZK")).isEqualTo(ZK);
+		assertThat(BitstampCurrencyCode.fromString("GOLD")).isEqualTo(GOLD);
+		assertThat(BitstampCurrencyCode.fromString("QQQ")).isEqualTo(QQQ);
+		assertThat(BitstampCurrencyCode.fromString("SILVER")).isEqualTo(SILVER);
 	}
 
 	@Test
@@ -150,6 +156,9 @@ class BitstampCurrencyCodeTest {
 		assertThat(RAY.getCurrencyType()).isEqualTo(CRYPTO);
 		assertThat(VVV.getCurrencyType()).isEqualTo(CRYPTO);
 		assertThat(W.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(GOLD.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(QQQ.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(SILVER.getCurrencyType()).isEqualTo(CRYPTO);
 	}
 
 }

@@ -58,9 +58,12 @@ public enum BitstampCurrencyCode {
 	ZUSD("ZUSD", "ZUSD Stablecoin", CRYPTO),
 
 	// Tokenized assets
+	BRENT("Brent", "Tokenized Brent crude oil", CRYPTO),
+	EWY("EWY", "Tokenized iShares MSCI South Korea ETF exposure", CRYPTO),
 	GOLD("Gold", "Tokenized gold", CRYPTO),
 	QQQ("QQQ", "Tokenized NASDAQ-100 ETF exposure", CRYPTO),
 	SILVER("Silver", "Tokenized silver", CRYPTO),
+	WTI("WTI", "Tokenized West Texas Intermediate crude oil", CRYPTO),
 
 	// Major cryptocurrencies
 	BTC("Bitcoin", "Bitcoin", CRYPTO),

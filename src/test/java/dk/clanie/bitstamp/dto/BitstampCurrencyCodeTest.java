@@ -24,6 +24,7 @@ import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.DAI;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.DOGE;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.ETH;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.EUR;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.EWY;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.GBP;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.GOLD;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.LINK;
@@ -44,6 +45,7 @@ import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USDT;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.USD_PERP;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.VVV;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.W;
+import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.WTI;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.XRP;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode.ZK;
 import static dk.clanie.bitstamp.dto.BitstampCurrencyCode._1INCH;
@@ -100,6 +102,9 @@ class BitstampCurrencyCodeTest {
 		assertThat(BitstampCurrencyCode.fromString("GOLD")).isEqualTo(GOLD);
 		assertThat(BitstampCurrencyCode.fromString("QQQ")).isEqualTo(QQQ);
 		assertThat(BitstampCurrencyCode.fromString("SILVER")).isEqualTo(SILVER);
+		assertThat(BitstampCurrencyCode.fromString("BRENT")).isEqualTo(BitstampCurrencyCode.BRENT);
+		assertThat(BitstampCurrencyCode.fromString("EWY")).isEqualTo(EWY);
+		assertThat(BitstampCurrencyCode.fromString("WTI")).isEqualTo(WTI);
 	}
 
 	@Test
@@ -159,6 +164,9 @@ class BitstampCurrencyCodeTest {
 		assertThat(GOLD.getCurrencyType()).isEqualTo(CRYPTO);
 		assertThat(QQQ.getCurrencyType()).isEqualTo(CRYPTO);
 		assertThat(SILVER.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(BitstampCurrencyCode.BRENT.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(EWY.getCurrencyType()).isEqualTo(CRYPTO);
+		assertThat(WTI.getCurrencyType()).isEqualTo(CRYPTO);
 	}
 
 }

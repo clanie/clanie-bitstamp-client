@@ -107,6 +107,7 @@ public enum BitstampCurrencyCode {
 	EIGEN("EigenLayer", "EigenLayer", CRYPTO),
 	PERP("Perpetual Protocol", "Perpetual Protocol", CRYPTO),
 	PENDLE("Pendle", "Pendle", CRYPTO),
+	RE("Re Protocol", "Re Protocol — on-chain reinsurance governance token", CRYPTO),
 	RGT("Rari Governance Token", "Rari Governance Token", CRYPTO),
 	SPK("Spark", "Spark", CRYPTO),
 	SYRUP("Syrup", "Syrup", CRYPTO),

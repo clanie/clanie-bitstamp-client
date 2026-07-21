@@ -50,6 +50,7 @@ public enum BitstampCurrencyCode {
 	PYUSD("PayPal USD", "PayPal USD Stablecoin", CRYPTO),
 	RLUSD("Ripple USD", "Ripple USD Stablecoin", CRYPTO),
 	USDC("USD Coin", "USD Coin Stablecoin", CRYPTO),
+	USDG("Global Dollar", "Global Dollar Stablecoin (Paxos/Global Dollar Network)", CRYPTO),
 	USDT("Tether", "Tether USD Stablecoin", CRYPTO),
 	UST("TerraUSD", "TerraUSD Stablecoin (deprecated)", CRYPTO),
 	VCHF("VCHF", "VCHF Stablecoin", CRYPTO),

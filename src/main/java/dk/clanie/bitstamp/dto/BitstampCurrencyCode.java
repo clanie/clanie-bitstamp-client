@@ -184,6 +184,7 @@ public enum BitstampCurrencyCode {
 	BNB("Binance Coin", "Binance Coin", CRYPTO),
 	ASTER("Astar", "Astar Network", CRYPTO),
 	AVNT("Aventus", "Aventus", CRYPTO),
+	BILL("Billions Network", "Billions Network — digital identity network", CRYPTO),
 	FLR("Flare", "Flare Network", CRYPTO),
 	MON("Monad", "Monad", CRYPTO),
 	QNT("Quant", "Quant", CRYPTO),
@@ -191,10 +192,12 @@ public enum BitstampCurrencyCode {
 	STORJ("Storj", "Storj", CRYPTO),
 	TRAC("OriginTrail", "OriginTrail", CRYPTO),
 	W("Wormhole", "Wormhole", CRYPTO),
+	WLD("Worldcoin", "Worldcoin — proof-of-personhood identity network", CRYPTO),
 	ZETA("ZetaChain", "ZetaChain", CRYPTO),
 	ZRO("LayerZero", "LayerZero", CRYPTO),
 
 	// Solana ecosystem
+	JTO("Jito", "Jito — Solana liquid staking and MEV protocol", CRYPTO),
 	JUP("Jupiter", "Jupiter", CRYPTO),
 	ORCA("Orca", "Orca", CRYPTO),
 	PYTH("Pyth Network", "Pyth Network", CRYPTO),

@@ -191,6 +191,7 @@ public enum BitstampCurrencyCode {
 	QNT("Quant", "Quant", CRYPTO),
 	SGB("Songbird", "Songbird", CRYPTO),
 	STORJ("Storj", "Storj", CRYPTO),
+	TIA("Celestia", "Celestia — modular blockchain data availability network", CRYPTO),
 	TRAC("OriginTrail", "OriginTrail", CRYPTO),
 	W("Wormhole", "Wormhole", CRYPTO),
 	WLD("Worldcoin", "Worldcoin — proof-of-personhood identity network", CRYPTO),

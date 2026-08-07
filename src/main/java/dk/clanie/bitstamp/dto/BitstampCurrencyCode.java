@@ -146,6 +146,7 @@ public enum BitstampCurrencyCode {
 	FARTCOIN("Fartcoin", "Fartcoin", CRYPTO),
 	PENGU("Pengu", "Pudgy Penguins", CRYPTO),
 	MOODENG("Moo Deng", "Moo Deng", CRYPTO),
+	CASHCAT("Cash Cat", "Cash Cat", CRYPTO),
 
 	// Political & Celebrity tokens
 	FIGHT("Fight", "Fight", CRYPTO),

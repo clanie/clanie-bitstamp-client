@@ -186,6 +186,7 @@ public enum BitstampCurrencyCode {
 	ASTER("Astar", "Astar Network", CRYPTO),
 	AVNT("Aventus", "Aventus", CRYPTO),
 	BILL("Billions Network", "Billions Network — digital identity network", CRYPTO),
+	CC("Canton", "Canton Coin — Canton Network institutional blockchain", CRYPTO),
 	FLR("Flare", "Flare Network", CRYPTO),
 	MON("Monad", "Monad", CRYPTO),
 	QNT("Quant", "Quant", CRYPTO),

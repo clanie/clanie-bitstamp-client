@@ -99,6 +99,7 @@ public enum BitstampCurrencyCode {
 	CRV("Curve", "Curve DAO Token", CRYPTO),
 	COMP("Compound", "Compound", CRYPTO),
 	MKR("Maker", "Maker", CRYPTO),
+	MORPHO("Morpho", "Morpho — on-chain lending protocol", CRYPTO),
 	SNX("Synthetix", "Synthetix", CRYPTO),
 	SUSHI("SushiSwap", "SushiSwap", CRYPTO),
 	YFI("Yearn Finance", "Yearn.finance", CRYPTO),

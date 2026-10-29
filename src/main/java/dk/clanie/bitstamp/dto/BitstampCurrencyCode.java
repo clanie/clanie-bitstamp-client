@@ -99,6 +99,7 @@ public enum BitstampCurrencyCode {
 	CRV("Curve", "Curve DAO Token", CRYPTO),
 	COMP("Compound", "Compound", CRYPTO),
 	MKR("Maker", "Maker", CRYPTO),
+	SKY("Sky", "Sky Protocol (rebranded from Maker)", CRYPTO),
 	MORPHO("Morpho", "Morpho — on-chain lending protocol", CRYPTO),
 	SNX("Synthetix", "Synthetix", CRYPTO),
 	SUSHI("SushiSwap", "SushiSwap", CRYPTO),
@@ -168,6 +169,7 @@ public enum BitstampCurrencyCode {
 	// AI & Oracle tokens
 	FET("Fetch.ai", "Fetch.ai", CRYPTO),
 	RNDR("Render Token", "Render Token", CRYPTO),
+	RENDER("Render", "Render Network (migrated from RNDR)", CRYPTO),
 	GRT("The Graph", "The Graph", CRYPTO),
 	TAO("Bittensor", "Bittensor", CRYPTO),
 	VIRTUAL("Virtual Protocol", "Virtual Protocol", CRYPTO),
